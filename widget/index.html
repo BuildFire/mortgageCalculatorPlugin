@@ -4,72 +4,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="buildfire" content="enablePluginJsonLoad">
   <!-- JS -->
-  <script src="../../../scripts/buildfire.js"></script>
-	<style>
-		.calculator-container {
-			max-width: 600px;
-			margin: 50px auto;
-			padding: 30px;
-			background-color: #fff;
-			border-radius: 5px;
-			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-		}
-
-		.form-group label {
-			display: block;
-			font-weight: bold;
-		}
-	</style>
+  <script src="../../../scripts/buildfire.min.js"></script>
 
 </head>
 <body>
 <div class="calculator-container">
-	<h1 class="text-center">Mortgage Calculator</h1>
+	<h1 class="text-center" bfString="main.title">Mortgage Calculator</h1>
 	<hr>
 	<form>
 		<div class="form-group">
-			<label for="home-value">Home Value</label>
-			<input type="number" class="form-control" id="home-value" placeholder="Enter home value">
+			<label for="home-value" bfString="homeValue.label">Home Value</label>
+			<input type="number" class="form-control" id="home-value" bfString="homeValue.placeHolder" bfString-attrs="placeholder" >
 		</div>
 		<div class="form-group">
-			<label>Down Payment</label>
+			<label bfString="downPaymentValue.label">Down Payment</label>
 			<div class="radio">
 				<label>
-					<input type="radio" name="down-payment-option" id="down-payment-amount-option" checked>
-					Amount
+					<input type="radio"  name="down-payment-option" id="down-payment-amount-option" checked>
+					<span bfString="downPaymentValue.amountLabel">Amount</span>
 				</label>
 			</div>
-			<input type="number" class="form-control" id="down-payment" placeholder="Enter down payment amount">
+			<input type="number" class="form-control" bfString="downPaymentValue.amountPlaceHolder"  id="down-payment" bfString-attrs="placeholder" placeholder="Enter down payment amount">
 			<div class="radio">
 				<label>
-					<input type="radio" name="down-payment-option" id="down-payment-percent-option">
-					Percentage
+					<input type="radio" name="down-payment-option"  id="down-payment-percent-option">
+					<span bfString="downPaymentValue.percentageLabel">Percentage</span>
 				</label>
 			</div>
-			<input type="number" class="form-control" id="down-payment-percent" step="0.01" placeholder="Enter down payment percentage" disabled>
+			<input type="number" bfString-attrs="placeholder" bfString="downPaymentValue.percentagePlaceHolder" class="form-control" id="down-payment-percent" step="0.01" placeholder="Enter down payment percentage" disabled>
 		</div>
 		<div class="form-group">
-			<label for="interest-rate">Interest Rate (%)</label>
-			<input type="number" class="form-control" id="interest-rate" step="0.01" placeholder="Enter annual interest rate">
+			<label for="interest-rate" bfString="interest.label">Interest Rate (%)</label>
+			<input type="number" bfString-attrs="placeholder" bfString="interest.placeHolder" class="form-control" id="interest-rate" step="0.01" placeholder="Enter annual interest rate">
 		</div>
 		<div class="form-group">
-			<label for="loan-term">Loan Term (years)</label>
-			<input type="number" class="form-control" id="loan-term" placeholder="Enter loan term in years">
+			<label for="loan-term"  bfString="loanTerm.label">Loan Term (years)</label>
+			<input type="number"bfString-attrs="placeholder" bfString="loanTerm.placeHolder" class="form-control" id="loan-term" placeholder="Enter loan term in years">
 		</div>
 		<div class="form-group">
 			<label>
-				<input type="checkbox" id="include-taxes"> Include Property Taxes
+				<input type="checkbox" id="include-taxes"> <span bfString="propertyTax.label">Include Property Taxes</span>
 			</label>
 		</div>
 		<div class="form-group" id="property-tax-rate-group" style="display: none;">
-			<label for="property-tax-rate">Property Tax Rate (%)</label>
-			<input type="number" class="form-control" id="property-tax-rate" step="0.01" placeholder="Enter property tax rate">
+			<label for="property-tax-rate" bfString="propertyTax.rateLabel">Property Tax Rate (%)</label>
+			<input type="number"bfString-attrs="placeholder" bfString="propertyTax.ratePlaceHolder" class="form-control" id="property-tax-rate" step="0.01" placeholder="Enter property tax rate">
 		</div>
-		<button type="submit" class="btn btn-primary btn-block">Calculate</button>
+		<button type="submit" class="btn btn-primary btn-block" bfString="calculate.button">Calculate</button>
 	</form>
 	<hr>
 	<div class="result">
-		<h4 class="text-center">Monthly Payment: <span id="monthly-payment">0</span></h4>
+		<h4 class="text-center"><span bfString="calculate.payment">Monthly Payment:</span> <span id="monthly-payment">0</span></h4>
 	</div>
 </div>
 <script>
