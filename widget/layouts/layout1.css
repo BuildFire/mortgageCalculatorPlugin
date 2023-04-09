@@ -1,0 +1,10 @@
+.calculator-container {
+	max-width: 600px;
+	margin: 0px auto;
+	padding: 2rem;
+}
+
+.form-group label, h1 {
+	display: block;
+	font-weight: bold;
+}

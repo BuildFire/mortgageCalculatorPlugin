@@ -1,0 +1,153 @@
+{
+	"mainInfo": "language Settings",
+	"sections": {
+		"main": {
+			"title": "Main Title",
+			"labels": {
+				"title": {
+					"title": "Title",
+					"defaultValue": "Mortgage Calculator",
+					"required": false,
+					"inputType": "text",
+					"toolTip": "Title on top of the screen"
+				}
+			}
+		},
+		"homeValue": {
+			"title": "Home Value",
+			"labels": {
+				"label": {
+					"title": "Label",
+					"defaultValue": "Home Value",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Home Value"
+				},
+				"placeHolder": {
+					"title": "PlaceHolder",
+					"defaultValue": "Enter home value",
+					"inputType": "text",
+					"toolTip": "This is the text in the input control that is shown when empty"
+				}
+			}
+		},
+		"downPaymentValue": {
+			"title": "Down Payment",
+			"labels": {
+				"label": {
+					"title": "Down Payment Label",
+					"defaultValue": "Down Payment",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Down Payment"
+				},
+				"amountLabel": {
+					"title": "Amount Label",
+					"defaultValue": "Amount",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Amount"
+				},
+				"amountPlaceHolder": {
+					"title": "Amount PlaceHolder",
+					"defaultValue": "Enter down payment amount",
+					"inputType": "text",
+					"toolTip": "This is the text in the input control that is shown when empty"
+				},
+				"percentageLabel": {
+					"title": "Percentage Label",
+					"defaultValue": "Percentage",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Percentage"
+				},
+				"percentagePlaceHolder": {
+					"title": "Percentage PlaceHolder",
+					"defaultValue": "Enter down payment percentage",
+					"inputType": "text",
+					"toolTip": "This is the text in the input control that is shown when empty"
+				}
+			}
+		},
+		"interest": {
+			"title": "Interest Rate",
+			"labels": {
+				"label": {
+					"title": "Label",
+					"defaultValue": "Interest Rate",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Interest Rate"
+				},
+				"placeHolder": {
+					"title": "PlaceHolder",
+					"defaultValue": "Enter annual interest rate",
+					"inputType": "text",
+					"toolTip": "This is the text in the input control that is shown when empty"
+				}
+			}
+		},
+		"loanTerm": {
+			"title": "Loan Term",
+			"labels": {
+				"label": {
+					"title": "Label",
+					"defaultValue": "Loan Term",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Loan Term"
+				},
+				"placeHolder": {
+					"title": "PlaceHolder",
+					"defaultValue": "Enter loan term in years",
+					"inputType": "text",
+					"toolTip": "This is the text in the input control that is shown when empty"
+				}
+			}
+		},
+		"propertyTax": {
+			"title": "Property Tax",
+			"labels": {
+				"label": {
+					"title": "Property Tax",
+					"defaultValue": "Include Property Tax",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Property Tax"
+				},
+				"rateLabel": {
+					"title": "Rate Label",
+					"defaultValue": "Property Tax Rate (%)",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Label for Property Tax Rate"
+				},
+				"ratePlaceHolder": {
+					"title": "Rate PlaceHolder",
+					"defaultValue": "Enter property tax rate",
+					"inputType": "text",
+					"toolTip": "This is the text in the input control that is shown when empty"
+				}
+			}
+		},
+		"calculate": {
+			"title": "Calculate",
+			"labels": {
+				"button": {
+					"title": "Button",
+					"defaultValue": "Calculate",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Button text"
+				},
+				"payment": {
+					"title": "Payment label",
+					"defaultValue": "Monthly Payment:",
+					"required": true,
+					"inputType": "text",
+					"toolTip": "Monthly payment text"
+				}
+			}
+		}
+	}
+}
