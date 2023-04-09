@@ -2,30 +2,127 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css"/>
-  <!--
-    NOTE:
-    1. You can reference the file in SDK via relative path
-    2. The Control and Widget Should NOT share resources. Only the Widget folder will make it to the device
-    3. You may include any JS framework you want with your Widget and Control folders. However, keep in mind
-        to keep you plugin as light weight as possible for performance and transport reasons
-  -->
-
-  <!-- You can load helper.css to use our helper classes.
-  <link href="../../../../styles/helper.css" rel="stylesheet">
-  -->
-
+	<meta name="buildfire" content="enablePluginJsonLoad">
   <!-- JS -->
   <script src="../../../scripts/buildfire.js"></script>
+	<style>
+		.calculator-container {
+			max-width: 600px;
+			margin: 50px auto;
+			padding: 30px;
+			background-color: #fff;
+			border-radius: 5px;
+			box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		}
 
+		.form-group label {
+			display: block;
+			font-weight: bold;
+		}
+	</style>
 
-  <!--
-   <script src="../../../../scripts/angular/angular.min.js"></script>
-   <script src="../../../../scripts/angular/ui-bootstrap.min.js"></script>
-   <script src="../../../../scripts/jquery/jquery-1.11.2.min.js"></script>
-   -->
 </head>
 <body>
-<span>Widget - Hello, world!</span>
+<div class="calculator-container">
+	<h1 class="text-center">Mortgage Calculator</h1>
+	<hr>
+	<form>
+		<div class="form-group">
+			<label for="home-value">Home Value</label>
+			<input type="number" class="form-control" id="home-value" placeholder="Enter home value">
+		</div>
+		<div class="form-group">
+			<label>Down Payment</label>
+			<div class="radio">
+				<label>
+					<input type="radio" name="down-payment-option" id="down-payment-amount-option" checked>
+					Amount
+				</label>
+			</div>
+			<input type="number" class="form-control" id="down-payment" placeholder="Enter down payment amount">
+			<div class="radio">
+				<label>
+					<input type="radio" name="down-payment-option" id="down-payment-percent-option">
+					Percentage
+				</label>
+			</div>
+			<input type="number" class="form-control" id="down-payment-percent" step="0.01" placeholder="Enter down payment percentage" disabled>
+		</div>
+		<div class="form-group">
+			<label for="interest-rate">Interest Rate (%)</label>
+			<input type="number" class="form-control" id="interest-rate" step="0.01" placeholder="Enter annual interest rate">
+		</div>
+		<div class="form-group">
+			<label for="loan-term">Loan Term (years)</label>
+			<input type="number" class="form-control" id="loan-term" placeholder="Enter loan term in years">
+		</div>
+		<div class="form-group">
+			<label>
+				<input type="checkbox" id="include-taxes"> Include Property Taxes
+			</label>
+		</div>
+		<div class="form-group" id="property-tax-rate-group" style="display: none;">
+			<label for="property-tax-rate">Property Tax Rate (%)</label>
+			<input type="number" class="form-control" id="property-tax-rate" step="0.01" placeholder="Enter property tax rate">
+		</div>
+		<button type="submit" class="btn btn-primary btn-block">Calculate</button>
+	</form>
+	<hr>
+	<div class="result">
+		<h4 class="text-center">Monthly Payment: <span id="monthly-payment">0</span></h4>
+	</div>
+</div>
+<script>
+	document.addEventListener('DOMContentLoaded', () => {
+	const includeTaxesCheckbox = document.getElementById('include-taxes');
+	const propertyTaxRateGroup = document.getElementById('property-tax-rate-group');
+	const downPaymentAmountOption = document.getElementById('down-payment-amount-option');
+	const downPaymentPercentOption = document.getElementById('down-payment-percent-option');
+	const downPaymentInput = document.getElementById('down-payment');
+	const downPaymentPercentInput = document.getElementById('down-payment-percent');
+	const form = document.querySelector('form');
+	const monthlyPayment = document.getElementById('monthly-payment');
+
+	includeTaxesCheckbox.addEventListener('change', () => {
+	if (includeTaxesCheckbox.checked) {
+	propertyTaxRateGroup.style.display = 'block';
+	} else {
+	propertyTaxRateGroup.style.display = 'none';
+	}
+	});
+
+	downPaymentAmountOption.addEventListener('change', () => {
+	downPaymentInput.disabled = false;
+	downPaymentPercentInput.disabled = true;
+	});
+
+	downPaymentPercentOption.addEventListener('change', () => {
+	downPaymentInput.disabled = true;
+	downPaymentPercentInput.disabled = false;
+	});
+
+	form.addEventListener('submit', (event) => {
+	event.preventDefault();
+	const homeValue = parseFloat(document.getElementById('home-value').value);
+	const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
+	const loanTerm = parseInt(document.getElementById('loan-term').value);
+	const downPayment = downPaymentAmountOption.checked ? parseFloat(downPaymentInput.value) : homeValue * parseFloat(downPaymentPercentInput.value) / 100;
+	const includeTaxes = includeTaxesCheckbox.checked;
+	const propertyTaxRate = includeTaxes ? parseFloat(document.getElementById('property-tax-rate').value) / 100 : 0;
+
+	const loanAmount = homeValue - downPayment;
+	const monthlyInterestRate = interestRate / 12;
+	const numberOfPayments = loanTerm * 12;
+
+	const monthlyPrincipalAndInterest = loanAmount * (monthlyInterestRate * Math.pow((1 + monthlyInterestRate), numberOfPayments)) / (Math.pow((1 + monthlyInterestRate), numberOfPayments) - 1);
+	const monthlyPropertyTax = includeTaxes ? homeValue * propertyTaxRate / 12 : 0;
+
+	const totalMonthlyPayment = monthlyPrincipalAndInterest + monthlyPropertyTax;
+
+	monthlyPayment.textContent = totalMonthlyPayment.toFixed(2);
+	});
+	});
+
+</script>
 </body>
 </html>

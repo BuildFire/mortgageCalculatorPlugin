@@ -1,22 +1,39 @@
 {
   "author": "BuildFire",
-  "pluginName": "Default Template",
-  "pluginDescription": "Bare bones plugin showing simple autonomy of a plugin",
-  "supportEmail": "devSupport@buildfire.com",
+  "pluginName": "Mortgage Calculator",
+  "pluginDescription": "A Simple Mortgage Calculator",
+  "pluginKeywords": "Mortgage Calculator, real estate",
+  "supportEmail": "support@buildfire.com",
+  "supportSite":"",
   "control": {
     "content": {
       "enabled": true
     },
-    "design":{
+    "design": {
       "enabled": false
     },
     "settings": {
       "enabled": false
-    }
+    },
+	  "cssInjection" : {
+		  "enabled": true,
+		  "layouts": [
+			  {
+				  "name": "Test Layout 1",
+				  "imageUrl": "resources/layouts_img/layout1.png",
+				  "cssPath": "widget/layouts/layout1.css"
+			  }
+		  ]
+	  },
+	  "language" : {
+		  "enabled": true,
+		  "languageJsonPath": "resources/languages.json"
+	  }
   },
   "widget": {
-
   },
   "features": [],
-  "languages": ["en"]
+  "languages": [
+    "en"
+  ]
 }
