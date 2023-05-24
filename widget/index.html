@@ -1,113 +1,180 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta name="buildfire" content="enablePluginJsonLoad">
-  <!-- JS -->
-  <script src="../../../scripts/buildfire.min.js"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="buildfire" content="enableMDTheme,enablePluginJsonLoad">
+	<!-- CSS -->
+	<link rel="stylesheet" href="../../../styles/materialDesign/material-components-web@4.0.0.min.css">
+	<link rel="stylesheet" href="../../../styles/material-icons.css">
+	<link rel="stylesheet" href="./style.css">
+	<!-- JS -->
+	<script src="../../../scripts/buildfire.min.js"></script>
+	<script src="../../../scripts/materialDesign/material-components-web@4.0.0.min.js"></script>
 
 </head>
+
 <body>
-<div class="calculator-container">
-	<h1 class="text-center" bfString="main.title">Mortgage Calculator</h1>
-	<hr>
-	<form>
-		<div class="form-group">
-			<label for="home-value" bfString="homeValue.label">Home Value</label>
-			<input type="number" class="form-control" id="home-value" bfString="homeValue.placeHolder" bfString-attrs="placeholder" >
-		</div>
-		<div class="form-group">
-			<label bfString="downPaymentValue.label">Down Payment</label>
-			<div class="radio">
-				<label>
-					<input type="radio"  name="down-payment-option" id="down-payment-amount-option" checked>
-					<span bfString="downPaymentValue.amountLabel">Amount</span>
-				</label>
+	<div class="calculator-container">
+		<div bfString="plugin.introduction" class="intro"></div>
+
+		<form action="" id="mortgageCalculatorForm">
+			<!-- home value -->
+			<div class="input-group">
+				<div class="mdc-text-field mdc-text-field--filled home-value">
+					<span class="mdc-text-field__ripple"></span>
+					<span bfString="plugin.homeValuePlaceholder" class="mdc-floating-label home-value-floating-label ellipsis"
+						for="homeValue">Home Value</span>
+					<span bfString="plugin.currencySymbol"
+						class=" mdc-text-field__affix mdc-text-field__affix--prefix home-value-prefix hidden">$</span>
+					<input class="mdc-text-field__input home-value-input" type="number" aria-labelledby="homeValue" id="homeValue"
+						step="any" inputmode="decimal" min="10000" required>
+				</div>
+				<div class="mdc-text-field-helper-line ">
+					<div bfString="plugin.inputRequiredMessage"
+						class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent ellipsis mdc-text-field-helper-text--validation-msg validation-message hidden">
+						Error message
+					</div>
+				</div>
 			</div>
-			<input type="number" class="form-control" bfString="downPaymentValue.amountPlaceHolder"  id="down-payment" bfString-attrs="placeholder" placeholder="Enter down payment amount">
-			<div class="radio">
-				<label>
-					<input type="radio" name="down-payment-option"  id="down-payment-percent-option">
-					<span bfString="downPaymentValue.percentageLabel">Percentage</span>
-				</label>
+
+			<!-- buttons  -->
+			<div class="buttons-container">
+				<!-- title span -->
+				<span bfString="plugin.downPaymentTitle" class="ellipsis down-payment-text">Down Payment</span>
+				<div class="buttons-group">
+					<input type="radio" value="amount" name="downPayment" id="amount" checked>
+					<label bfString="plugin.downPaymentAmount"
+						class="ellipsis radio-button mdc-button mdc-button--raised down-payment-btn" for="amount">Amount</label>
+
+					<input type="radio" value="percentage" name="downPayment" id="percentage">
+					<label bfString="plugin.downPaymentPercentage"
+						class="ellipsis radio-button mdc-button mdc-button--raised down-payment-btn" for="percentage">Percentage</label>
+				</div>
 			</div>
-			<input type="number" bfString-attrs="placeholder" bfString="downPaymentValue.percentagePlaceHolder" class="form-control" id="down-payment-percent" step="0.01" placeholder="Enter down payment percentage" disabled>
+
+			<!-- amount value -->
+			<div class="input-group" id="amountInputGroup">
+				<div class="mdc-text-field mdc-text-field--filled amount">
+					<span class="mdc-text-field__ripple"></span>
+					<span bfString="plugin.downPaymentAmountPlaceholder" class="mdc-floating-label amount-floating-label  ellipsis"
+						for="amount">Enter Amount</span>
+					<span bfString="plugin.currencySymbol"
+						class="mdc-text-field__affix mdc-text-field__affix--prefix amount-prefix hidden">$</span>
+					<input class="mdc-text-field__input amount-input " type="number" aria-labelledby="amount" id="amount" step="any"
+						inputmode="decimal" required>
+				</div>
+				<div class="mdc-text-field-helper-line ">
+					<div bfString="plugin.inputRequiredMessage"
+						class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent ellipsis mdc-text-field-helper-text--validation-msg validation-message hidden">
+						Error message
+					</div>
+				</div>
+			</div>
+
+			<!-- percentage value -->
+			<div class="input-group hidden" id="percentageInputGroup">
+				<div class="mdc-text-field mdc-text-field--filled percentage">
+					<span class="mdc-text-field__ripple"></span>
+					<span bfString="plugin.downPaymentPercentagePlaceholder" class="mdc-floating-label percentage-floating-label ellipsis"
+						for="percentage">Enter Amount</span>
+					<span bfString="plugin.currencySymbol"
+						class="mdc-text-field__affix mdc-text-field__affix--prefix percentage-prefix hidden">$</span>
+					<input class="mdc-text-field__input percentage-input" type="number" aria-labelledby="percentage" id="percentage"
+						step="any" inputmode="decimal">
+				</div>
+				<div class="mdc-text-field-helper-line ">
+					<div bfString="plugin.inputRequiredMessage"
+						class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent ellipsis mdc-text-field-helper-text--validation-msg validation-message hidden">
+						Error message
+					</div>
+				</div>
+			</div>
+
+			<!-- Annual Interest Rate value -->
+			<div class="input-group">
+				<div class="mdc-text-field mdc-text-field--filled annual-interest-rate">
+					<span class="mdc-text-field__ripple"></span>
+					<span bfString="plugin.annualInterestRatePlaceholder" class="mdc-floating-label interest-rate-floating-label ellipsis"
+						for="annualInterestRate">Annual Interest Rate</span>
+					<span class="mdc-text-field__affix mdc-text-field__affix--prefix interest-rate-prefix hidden">%</span>
+					<input class="mdc-text-field__input interest-rate-input" type="number" aria-labelledby="annualInterestRate"
+						id="annualInterestRate" step="any" inputmode="decimal" required>
+				</div>
+				<div class="mdc-text-field-helper-line ">
+					<div bfString="plugin.inputRequiredMessage"
+						class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent ellipsis mdc-text-field-helper-text--validation-msg validation-message hidden">
+						Error message
+					</div>
+				</div>
+			</div>
+
+			<!-- Loan Term value -->
+			<div class="input-group">
+				<div class="mdc-text-field mdc-text-field--filled loan-term">
+					<span class="mdc-text-field__ripple"></span>
+					<span bfString="plugin.loanTermPlaceholder" class="mdc-floating-label loan-term-floating-label ellipsis" for="loanTerm">Loan
+						Term</span>
+					<span bfString="plugin.loanTermSuffix"
+						class="mdc-text-field__affix mdc-text-field__affix--prefix loan-term-postfix hidden">years</span>
+					<input class="mdc-text-field__input loan-term-input" type="number" aria-labelledby="loanTerm" id="loanTerm"
+						step="any" inputmode="decimal" required>
+				</div>
+				<div class="mdc-text-field-helper-line ">
+					<div bfString="plugin.inputRequiredMessage"
+						class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent ellipsis mdc-text-field-helper-text--validation-msg validation-message hidden">
+						Error message
+					</div>
+				</div>
+			</div>
+
+			<!-- Include Property Tax -->
+			<div class="property-tax-switch-container">
+				<div class="col">
+					<span bfString="plugin.includePropertyTax" class="ellipsis title">Include Property Tax</span>
+				</div>
+				<div class="col">
+					<div class="button-switch">
+						<input id="propertyTaxSwitch" type="checkbox" />
+						<label for="propertyTaxSwitch" class="label-success"></label>
+					</div>
+				</div>
+			</div>
+
+			<!-- property Tax value -->
+			<div class="input-group hidden" id="propertyTaxContainer">
+				<div class="mdc-text-field mdc-text-field--filled property-tax-rate ">
+					<span class="mdc-text-field__ripple"></span>
+					<span bfString="plugin.propertyTaxRatePlaceholder" class="mdc-floating-label property-tax-floating-label ellipsis"
+						for="propertyTaxRate">Property Tax Rate</span>
+					<span class="mdc-text-field__affix mdc-text-field__affix--prefix property-tax-prefix hidden">%</span>
+					<input class="mdc-text-field__input property-tax-input" type="number" aria-labelledby="propertyTaxRate"
+						id="propertyTaxRate" step="any" inputmode="decimal">
+				</div>
+				<div class="mdc-text-field-helper-line ">
+					<div bfString="plugin.inputRequiredMessage"
+						class="mdc-text-field-helper-text mdc-text-field-helper-text--persistent ellipsis mdc-text-field-helper-text--validation-msg validation-message hidden">
+						Error message
+					</div>
+				</div>
+			</div>
+
+			<!--submit input  -->
+			<input type="submit" bfString="plugin.calculateButton" bfString-attrs="value" value="Calculate"
+				class="ellipsis mdc-button mdc-button--raised calculate-btn">
+			</input>
+
+		</form>
+
+		<div class="result-container hidden" id="resultContainer">
+			<span bfString="plugin.monthlyPayment" class="label ellipsis">Monthly Payment</span>
+			<div style="display: flex;">
+				<span bfString="plugin.currencySymbol" class="monthly-payment" bfString>$</span>
+				<span class="monthly-payment" id="monthlyPayment"></span>
+			</div>
 		</div>
-		<div class="form-group">
-			<label for="interest-rate" bfString="interest.label">Interest Rate (%)</label>
-			<input type="number" bfString-attrs="placeholder" bfString="interest.placeHolder" class="form-control" id="interest-rate" step="0.01" placeholder="Enter annual interest rate">
-		</div>
-		<div class="form-group">
-			<label for="loan-term"  bfString="loanTerm.label">Loan Term (years)</label>
-			<input type="number"bfString-attrs="placeholder" bfString="loanTerm.placeHolder" class="form-control" id="loan-term" placeholder="Enter loan term in years">
-		</div>
-		<div class="form-group">
-			<label>
-				<input type="checkbox" id="include-taxes"> <span bfString="propertyTax.label">Include Property Taxes</span>
-			</label>
-		</div>
-		<div class="form-group" id="property-tax-rate-group" style="display: none;">
-			<label for="property-tax-rate" bfString="propertyTax.rateLabel">Property Tax Rate (%)</label>
-			<input type="number"bfString-attrs="placeholder" bfString="propertyTax.ratePlaceHolder" class="form-control" id="property-tax-rate" step="0.01" placeholder="Enter property tax rate">
-		</div>
-		<button type="submit" class="btn btn-primary btn-block" bfString="calculate.button">Calculate</button>
-	</form>
-	<hr>
-	<div class="result">
-		<h4 class="text-center"><span bfString="calculate.payment">Monthly Payment:</span> <span id="monthly-payment">0</span></h4>
 	</div>
-</div>
-<script>
-	document.addEventListener('DOMContentLoaded', () => {
-	const includeTaxesCheckbox = document.getElementById('include-taxes');
-	const propertyTaxRateGroup = document.getElementById('property-tax-rate-group');
-	const downPaymentAmountOption = document.getElementById('down-payment-amount-option');
-	const downPaymentPercentOption = document.getElementById('down-payment-percent-option');
-	const downPaymentInput = document.getElementById('down-payment');
-	const downPaymentPercentInput = document.getElementById('down-payment-percent');
-	const form = document.querySelector('form');
-	const monthlyPayment = document.getElementById('monthly-payment');
-
-	includeTaxesCheckbox.addEventListener('change', () => {
-	if (includeTaxesCheckbox.checked) {
-	propertyTaxRateGroup.style.display = 'block';
-	} else {
-	propertyTaxRateGroup.style.display = 'none';
-	}
-	});
-
-	downPaymentAmountOption.addEventListener('change', () => {
-	downPaymentInput.disabled = false;
-	downPaymentPercentInput.disabled = true;
-	});
-
-	downPaymentPercentOption.addEventListener('change', () => {
-	downPaymentInput.disabled = true;
-	downPaymentPercentInput.disabled = false;
-	});
-
-	form.addEventListener('submit', (event) => {
-	event.preventDefault();
-	const homeValue = parseFloat(document.getElementById('home-value').value);
-	const interestRate = parseFloat(document.getElementById('interest-rate').value) / 100;
-	const loanTerm = parseInt(document.getElementById('loan-term').value);
-	const downPayment = downPaymentAmountOption.checked ? parseFloat(downPaymentInput.value) : homeValue * parseFloat(downPaymentPercentInput.value) / 100;
-	const includeTaxes = includeTaxesCheckbox.checked;
-	const propertyTaxRate = includeTaxes ? parseFloat(document.getElementById('property-tax-rate').value) / 100 : 0;
-
-	const loanAmount = homeValue - downPayment;
-	const monthlyInterestRate = interestRate / 12;
-	const numberOfPayments = loanTerm * 12;
-
-	const monthlyPrincipalAndInterest = loanAmount * (monthlyInterestRate * Math.pow((1 + monthlyInterestRate), numberOfPayments)) / (Math.pow((1 + monthlyInterestRate), numberOfPayments) - 1);
-	const monthlyPropertyTax = includeTaxes ? homeValue * propertyTaxRate / 12 : 0;
-
-	const totalMonthlyPayment = monthlyPrincipalAndInterest + monthlyPropertyTax;
-
-	monthlyPayment.textContent = totalMonthlyPayment.toFixed(2);
-	});
-	});
-
-</script>
+	<script src="app.js"></script>
 </body>
+
 </html>

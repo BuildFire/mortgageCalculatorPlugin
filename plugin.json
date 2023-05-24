@@ -19,7 +19,7 @@
 		  "enabled": true,
 		  "layouts": [
 			  {
-				  "name": "Test Layout 1",
+				  "name": "Layout 1",
 				  "imageUrl": "resources/layouts_img/layout1.png",
 				  "cssPath": "widget/layouts/layout1.css"
 			  }

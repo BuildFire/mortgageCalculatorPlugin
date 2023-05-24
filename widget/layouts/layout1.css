@@ -1,10 +1,79 @@
-.calculator-container {
-	max-width: 600px;
-	margin: 0px auto;
-	padding: 2rem;
-}
+@import '../style.css';
 
-.form-group label, h1 {
-	display: block;
-	font-weight: bold;
-}
+
+
+/* -------------------- css customization ------------------------*/
+
+/* Introduction */
+.calculator-container .intro {}
+
+/* home value input */
+.calculator-container form .input-group .home-value-floating-label {}
+
+.calculator-container form .input-group .home-value-prefix {}
+
+.calculator-container form .input-group .home-value-input {}
+
+/* amount input */
+.calculator-container form .input-group .amount-floating-label {}
+
+.calculator-container form .input-group .amount-prefix {}
+
+.calculator-container form .input-group .amount-input {}
+
+/* percentage input */
+.calculator-container form .input-group .percentage-floating-label {}
+
+.calculator-container form .input-group .percentage-prefix {}
+
+.calculator-container form .input-group .percentage-input {}
+
+/* Annual Interest Rate input */
+.calculator-container form .input-group .interest-rate-floating-label {}
+
+.calculator-container form .input-group .interest-rate-prefix {}
+
+.calculator-container form .input-group .interest-rate-input {}
+
+/* Loan Term input */
+.calculator-container form .input-group .loan-term-floating-label {}
+
+.calculator-container form .input-group .loan-term-postfix {}
+
+.calculator-container form .input-group .loan-term-input {}
+
+/* property Tax input */
+.calculator-container form .input-group .property-tax-floating-label {}
+
+.calculator-container form .input-group .property-tax-prefix {}
+
+.calculator-container form .input-group .property-tax-input {}
+
+
+/* Validation message */
+.calculator-container form .input-group .validation-message {}
+
+
+/* Down payment container */
+.calculator-container form .buttons-container .down-payment-text {}
+
+.calculator-container form .buttons-container .buttons-group{}
+
+.calculator-container form .buttons-container .buttons-group .down-payment-btn{}
+
+
+/* Property Tax switch container*/
+.calculator-container form .property-tax-switch-container{}
+
+.calculator-container form .property-tax-switch-container .col .title{}
+
+.calculator-container form .property-tax-switch-container .col .title{}
+
+.calculator-container form .button-switch>input[type="checkbox"]:checked+label::after {}
+
+.calculator-container form .button-switch>input[type="checkbox"]:disabled+label::after {}
+
+
+/* Calculate Button */
+.calculator-container form .calculate-btn{}
+

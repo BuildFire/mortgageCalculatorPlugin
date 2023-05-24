@@ -1,153 +1,106 @@
 {
-	"mainInfo": "language Settings",
 	"sections": {
-		"main": {
-			"title": "Main Title",
-			"labels": {
-				"title": {
-					"title": "Title",
-					"defaultValue": "Mortgage Calculator",
-					"required": false,
-					"inputType": "text",
-					"toolTip": "Title on top of the screen"
-				}
-			}
-		},
-		"homeValue": {
-			"title": "Home Value",
-			"labels": {
-				"label": {
-					"title": "Label",
+		"plugin":{
+			"title":"Mortgage Calculator",
+			"labels":{
+				"introduction": {
+					"title": "Introduction",
+					"defaultValue": "wysiwyg ",
+					"inputType": "wysiwyg",
+					"placeholder":"wysiwyg"
+				},
+				"homeValuePlaceholder":{
+					"title": "Home Value Placeholder",
 					"defaultValue": "Home Value",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Label for Home Value"
+					"placeholder":"Home Value"
 				},
-				"placeHolder": {
-					"title": "PlaceHolder",
-					"defaultValue": "Enter home value",
-					"inputType": "text",
-					"toolTip": "This is the text in the input control that is shown when empty"
-				}
-			}
-		},
-		"downPaymentValue": {
-			"title": "Down Payment",
-			"labels": {
-				"label": {
-					"title": "Down Payment Label",
+				"downPaymentTitle":{
+					"title": "Down Payment Title",
 					"defaultValue": "Down Payment",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Label for Down Payment"
+					"placeholder":"Down Payment"
 				},
-				"amountLabel": {
-					"title": "Amount Label",
+				"downPaymentAmount":{
+					"title": "Down Payment Amount",
 					"defaultValue": "Amount",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Label for Amount"
+					"placeholder":"Amount"
 				},
-				"amountPlaceHolder": {
-					"title": "Amount PlaceHolder",
-					"defaultValue": "Enter down payment amount",
-					"inputType": "text",
-					"toolTip": "This is the text in the input control that is shown when empty"
-				},
-				"percentageLabel": {
-					"title": "Percentage Label",
+				"downPaymentPercentage":{
+					"title": "Down Payment Percentage",
 					"defaultValue": "Percentage",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Label for Percentage"
+					"placeholder":"Percentage"
 				},
-				"percentagePlaceHolder": {
-					"title": "Percentage PlaceHolder",
-					"defaultValue": "Enter down payment percentage",
+				"downPaymentAmountPlaceholder":{
+					"title": "Down Payment Amount Placeholder",
+					"defaultValue": "Enter Amount",
 					"inputType": "text",
-					"toolTip": "This is the text in the input control that is shown when empty"
-				}
-			}
-		},
-		"interest": {
-			"title": "Interest Rate",
-			"labels": {
-				"label": {
-					"title": "Label",
-					"defaultValue": "Interest Rate",
-					"required": true,
-					"inputType": "text",
-					"toolTip": "Label for Interest Rate"
+					"placeholder":"Enter Amount"
 				},
-				"placeHolder": {
-					"title": "PlaceHolder",
-					"defaultValue": "Enter annual interest rate",
+				"downPaymentPercentagePlaceholder":{
+					"title": "Down Payment Percentage Placeholder",
+					"defaultValue": "Enter Percentage",
 					"inputType": "text",
-					"toolTip": "This is the text in the input control that is shown when empty"
-				}
-			}
-		},
-		"loanTerm": {
-			"title": "Loan Term",
-			"labels": {
-				"label": {
-					"title": "Label",
+					"placeholder":"Enter Percentage"
+				},
+				"annualInterestRatePlaceholder":{
+					"title": "Annual Interest Rate Placeholder",
+					"defaultValue": "Annual Interest Rate",
+					"inputType": "text",
+					"placeholder":"Annual Interest Rate"
+				},
+				"loanTermPlaceholder":{
+					"title": "Loan Term Placeholder",
 					"defaultValue": "Loan Term",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Label for Loan Term"
+					"placeholder":"Loan Term"
 				},
-				"placeHolder": {
-					"title": "PlaceHolder",
-					"defaultValue": "Enter loan term in years",
+				"loanTermSuffix":{
+					"title": "Loan Term Suffix",
+					"defaultValue": "years",
 					"inputType": "text",
-					"toolTip": "This is the text in the input control that is shown when empty"
-				}
-			}
-		},
-		"propertyTax": {
-			"title": "Property Tax",
-			"labels": {
-				"label": {
-					"title": "Property Tax",
+					"placeholder":"years"
+				},
+				"includePropertyTax":{
+					"title": "Include Property Tax",
 					"defaultValue": "Include Property Tax",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Label for Property Tax"
+					"placeholder":"Include Property Tax"
 				},
-				"rateLabel": {
-					"title": "Rate Label",
-					"defaultValue": "Property Tax Rate (%)",
-					"required": true,
+				"propertyTaxRatePlaceholder":{
+					"title": "Property Tax Rate Placeholder",
+					"defaultValue": "Property Tax Rate",
 					"inputType": "text",
-					"toolTip": "Label for Property Tax Rate"
+					"placeholder":"Property Tax Rate"
 				},
-				"ratePlaceHolder": {
-					"title": "Rate PlaceHolder",
-					"defaultValue": "Enter property tax rate",
-					"inputType": "text",
-					"toolTip": "This is the text in the input control that is shown when empty"
-				}
-			}
-		},
-		"calculate": {
-			"title": "Calculate",
-			"labels": {
-				"button": {
-					"title": "Button",
+				"calculateButton":{
+					"title": "Calculate Button",
 					"defaultValue": "Calculate",
-					"required": true,
 					"inputType": "text",
-					"toolTip": "Button text"
+					"placeholder":"Calculate"
 				},
-				"payment": {
-					"title": "Payment label",
-					"defaultValue": "Monthly Payment:",
-					"required": true,
+				"monthlyPayment":{
+					"title": "Monthly Payment",
+					"defaultValue": "Monthly Payment",
 					"inputType": "text",
-					"toolTip": "Monthly payment text"
+					"placeholder":"Monthly Payment"
+				},
+				"currencySymbol":{
+					"title": "Currency Symbol",
+					"defaultValue": "$",
+					"inputType": "text",
+					"placeholder":"$",
+					"maxLength":1
+				},
+				"inputRequiredMessage":{
+					"title": "This Field is Required",
+					"defaultValue": "This Field is Required",
+					"inputType": "text",
+					"placeholder":"This Field is Required"
 				}
 			}
 		}
-	}
+}
 }
