@@ -190,7 +190,6 @@ const widgetUI = {
 
                 const totalMonthlyPayment =
                 monthlyPrincipalAndInterest + monthlyPropertyTax;
-                console.log('🚀 ~ file: app.js:180 ~ _onSubmit ~ totalMonthlyPayment:', totalMonthlyPayment)
 
 				this.uiElements.monthlyPayment.innerText = totalMonthlyPayment.toFixed(2);
 				this.uiElements.resultContainer.classList.remove('hidden');
