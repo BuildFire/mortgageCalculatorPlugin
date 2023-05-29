@@ -64,7 +64,7 @@
 					<span bfString="plugin.currencySymbol"
 						class="mdc-text-field__affix mdc-text-field__affix--prefix amount-prefix hidden">$</span>
 					<input class="mdc-text-field__input amount-input " type="number" aria-labelledby="amount" id="amount" step="any"
-						inputmode="decimal" required>
+						inputmode="decimal"  min="0" required>
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -79,11 +79,11 @@
 				<div class="mdc-text-field mdc-text-field--filled percentage">
 					<span class="mdc-text-field__ripple"></span>
 					<span bfString="plugin.downPaymentPercentagePlaceholder" class="mdc-floating-label percentage-floating-label ellipsis"
-						for="percentage">Enter Amount</span>
-					<span bfString="plugin.currencySymbol"
-						class="mdc-text-field__affix mdc-text-field__affix--prefix percentage-prefix hidden">$</span>
+						for="percentage">Enter Percentage</span>
+					<span 
+						class="mdc-text-field__affix mdc-text-field__affix--prefix percentage-prefix hidden">%</span>
 					<input class="mdc-text-field__input percentage-input" type="number" aria-labelledby="percentage" id="percentage"
-						step="any" inputmode="decimal">
+						step="any" min="0" inputmode="decimal">
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -101,7 +101,7 @@
 						for="annualInterestRate">Annual Interest Rate</span>
 					<span class="mdc-text-field__affix mdc-text-field__affix--prefix interest-rate-prefix hidden">%</span>
 					<input class="mdc-text-field__input interest-rate-input" type="number" aria-labelledby="annualInterestRate"
-						id="annualInterestRate" step="any" inputmode="decimal" required>
+						id="annualInterestRate" min="0" step="any" inputmode="decimal" required>
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -120,7 +120,7 @@
 					<span bfString="plugin.loanTermSuffix"
 						class="mdc-text-field__affix mdc-text-field__affix--prefix loan-term-postfix hidden">years</span>
 					<input class="mdc-text-field__input loan-term-input" type="number" aria-labelledby="loanTerm" id="loanTerm"
-						step="any" inputmode="decimal" required>
+						step="any" min="0.00000000001" inputmode="decimal" required>
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -151,7 +151,7 @@
 						for="propertyTaxRate">Property Tax Rate</span>
 					<span class="mdc-text-field__affix mdc-text-field__affix--prefix property-tax-prefix hidden">%</span>
 					<input class="mdc-text-field__input property-tax-input" type="number" aria-labelledby="propertyTaxRate"
-						id="propertyTaxRate" step="any" inputmode="decimal">
+						id="propertyTaxRate" min="0" step="any" inputmode="decimal">
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"

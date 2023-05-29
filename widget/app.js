@@ -21,8 +21,14 @@ const widgetUI = {
         amountInputGroup: document.getElementById('amountInputGroup'),
         percentageInputGroup: document.getElementById('percentageInputGroup'),
     },
+    _errMessages: {
+        requiredMessage: '',
+        minimumMessage: '',
+        inputNotValidMessage: '',
+    },
 
     init() {
+        this._getErrorMessagesStr();
         this._initMDCComponents();
         this._radioButtonsToggle();
         this._switchButtonsToggle();
@@ -37,9 +43,10 @@ const widgetUI = {
         this.uiElements.mdcElement.amountInput = new mdc.textField.MDCTextField(
             document.querySelector('.amount')
         );
-        this.uiElements.mdcElement.percentageInput = new mdc.textField.MDCTextField(
-            document.querySelector('.percentage')
-        );
+        this.uiElements.mdcElement.percentageInput =
+            new mdc.textField.MDCTextField(
+                document.querySelector('.percentage')
+            );
         this.uiElements.mdcElement.annualInterestRateInput =
             new mdc.textField.MDCTextField(
                 document.querySelector('.annual-interest-rate')
@@ -58,35 +65,133 @@ const widgetUI = {
     _radioButtonsToggle() {
         this.uiElements.downPaymentRadioButtons.forEach((radio) => {
             radio.addEventListener('change', (e) => {
-                console.log(this.uiElements.mdcElement.amountInput);
                 this.downPaymentChoose = e.target.value;
-                    if (this.downPaymentChoose === 'percentage') {
-                        this.uiElements.amountInputGroup.classList.add('hidden');
-                        this.uiElements.mdcElement.amountInput.input_.required = false;
-                        this.uiElements.percentageInputGroup.classList.remove('hidden');
-                        this.uiElements.mdcElement.percentageInput.input_.required = true;
+                if (this.downPaymentChoose === 'percentage') {
+                    this.uiElements.amountInputGroup.classList.add('hidden');
+                    this.uiElements.mdcElement.amountInput.input_.required = false;
+                    this.uiElements.percentageInputGroup.classList.remove(
+                        'hidden'
+                    );
+                    this.uiElements.mdcElement.percentageInput.input_.required = true;
+                    this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.add(
+                        'hidden'
+                    );
+                    if (
+                        this.uiElements.mdcElement.amountInput.value.trim() !==
+                            '' &&
+                        this.uiElements.mdcElement.homeValueInput.value.trim() !==
+                            ''
+                    ) {
+                        this.uiElements.mdcElement.percentageInput.value =
+                            (Number(
+                                this.uiElements.mdcElement.amountInput.value
+                            ) /
+                                Number(
+                                    this.uiElements.mdcElement.homeValueInput
+                                        .value
+                                )) *
+                            100;
+                        this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.remove(
+                            'hidden'
+                        );
+                        let prefixElement =
+                            this.uiElements.mdcElement.percentageInput.input_
+                                .previousElementSibling;
+                        prefixElement.classList.remove('hidden');
                         this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.add(
                             'hidden'
                         );
-                        this.uiElements.mdcElement.percentageInput.value = '';
+                    }
+                } else {
+                    this.uiElements.percentageInputGroup.classList.add(
+                        'hidden'
+                    );
+                    this.uiElements.mdcElement.percentageInput.input_.required = false;
+                    this.uiElements.amountInputGroup.classList.remove('hidden');
+                    this.uiElements.mdcElement.amountInput.input_.required = true;
+                    this.uiElements.mdcElement.amountInput.helperText_.root_.classList.add(
+                        'hidden'
+                    );
+                    if (
+                        this.uiElements.mdcElement.percentageInput.value.trim() !==
+                            '' &&
+                        this.uiElements.mdcElement.homeValueInput.value.trim() !==
+                            ''
+                    ) {
+                        this.uiElements.mdcElement.amountInput.value =
+                            (Number(
+                                this.uiElements.mdcElement.percentageInput.value
+                            ) /
+                                100) *
+                            Number(
+                                this.uiElements.mdcElement.homeValueInput.value
+                            );
+                        this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.remove(
+                            'hidden'
+                        );
                         let prefixElement =
-                        this.uiElements.mdcElement.percentageInput.input_.previousElementSibling;
-                        prefixElement.classList.add('hidden');
-                    } else {
-                        this.uiElements.percentageInputGroup.classList.add('hidden');
-                        this.uiElements.mdcElement.percentageInput.input_.required = false;
-                        this.uiElements.amountInputGroup.classList.remove('hidden');
-                        this.uiElements.mdcElement.amountInput.input_.required = true;
+                            this.uiElements.mdcElement.amountInput.input_
+                                .previousElementSibling;
+                        prefixElement.classList.remove('hidden');
                         this.uiElements.mdcElement.amountInput.helperText_.root_.classList.add(
                             'hidden'
                         );
-                        this.uiElements.mdcElement.amountInput.value = '';
-                        let prefixElement =
-                        this.uiElements.mdcElement.amountInput.input_.previousElementSibling;
-                        prefixElement.classList.add('hidden');
                     }
+                }
             });
         });
+    },
+
+    _validationsHandler(element) {
+        if (element.valid) {
+            element.helperText_.root_.classList.add('hidden');
+        } else {
+            if (element.input_.id === 'homeValue') {
+                if (
+                    element.value.trim() !== '' &&
+                    element.min.trim() !== '' &&
+                    Number(element.value) < 10000
+                ) {
+                    element.helperText_.foundation_.adapter_.setContent(
+                        this._errMessages.minimumMessage
+                    );
+                } else {
+                    element.helperText_.foundation_.adapter_.setContent(
+                        this._errMessages.requiredMessage
+                    );
+                }
+            } else if (
+                element.input_.id === 'loanTerm' &&
+                element.value === '0'
+            ) {
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.inputNotValidMessage
+                );
+            } else {
+                if (
+                    element.value.trim() !== '' &&
+                    element.min.trim() !== '' &&
+                    Number(element.value) < 0
+                ) {
+                    element.helperText_.foundation_.adapter_.setContent(
+                        this._errMessages.inputNotValidMessage
+                    );
+                } else if (element.input_.validity.badInput) {
+                    element.helperText_.foundation_.adapter_.setContent(
+                        this._errMessages.inputNotValidMessage
+                    );
+                } else {
+                    element.helperText_.foundation_.adapter_.setContent(
+                        this._errMessages.requiredMessage
+                    );
+                }
+            }
+            element.helperText_.root_.classList.remove('hidden');
+        }
+        if (element.value.trim() === '') {
+            let prefixElement = element.input_.previousElementSibling;
+            prefixElement.classList.add('hidden');
+        }
     },
 
     _ErrMsgToggle() {
@@ -100,18 +205,7 @@ const widgetUI = {
                 const element = this.uiElements.mdcElement[key];
                 if (element) {
                     element.input_.addEventListener('focusout', () => {
-                        if (element.valid) {
-                            element.helperText_.root_.classList.add('hidden');
-                        } else {
-                            element.helperText_.root_.classList.remove(
-                                'hidden'
-                            );
-                        }
-                        if (element.value.trim() === '') {
-                            let prefixElement =
-                                element.input_.previousElementSibling;
-                            prefixElement.classList.add('hidden');
-                        }
+                        this._validationsHandler(element);
                     });
 
                     element.input_.onfocus = (e) => {
@@ -151,18 +245,20 @@ const widgetUI = {
                     parseFloat(
                         this.uiElements.mdcElement.annualInterestRateInput.value
                     ) / 100;
-                const loanTerm = parseInt(
+                const loanTerm = parseFloat(
                     this.uiElements.mdcElement.loanTermInput.value
                 );
-                const downPayment = this.downPaymentChoose === 'percentage'?
-                homeValue * parseFloat(
-                    this.uiElements.mdcElement.percentageInput.value
-                ) / 100
-
-                :
-                 parseFloat(
-                    this.uiElements.mdcElement.amountInput.value
-                );
+                const downPayment =
+                    this.downPaymentChoose === 'percentage'
+                        ? (homeValue *
+                              parseFloat(
+                                  this.uiElements.mdcElement.percentageInput
+                                      .value
+                              )) /
+                          100
+                        : parseFloat(
+                              this.uiElements.mdcElement.amountInput.value
+                          );
 
                 const includeTaxes = this.includeTaxes;
                 const propertyTaxRate = includeTaxes
@@ -189,10 +285,54 @@ const widgetUI = {
                     : 0;
 
                 const totalMonthlyPayment =
-                monthlyPrincipalAndInterest + monthlyPropertyTax;
+                    monthlyPrincipalAndInterest + monthlyPropertyTax;
 
-				this.uiElements.monthlyPayment.innerText = totalMonthlyPayment.toFixed(2);
-				this.uiElements.resultContainer.classList.remove('hidden');
+                const formatter = new Intl.NumberFormat('en-US', {
+                    style: 'decimal',
+                });
+                const totalMonthlyPaymentDisplay = formatter.format(
+                    totalMonthlyPayment.toFixed(2)
+                );
+
+                this.uiElements.monthlyPayment.innerText =
+                    totalMonthlyPaymentDisplay;
+                this.uiElements.resultContainer.classList.remove('hidden');
+            }
+        );
+    },
+
+    _getErrorMessagesStr() {
+        buildfire.language.get(
+            { stringKey: 'plugin.inputRequiredMessage' },
+            (err, result) => {
+                if (err)
+                    return console.error(
+                        'Error while retrieving string value',
+                        err
+                    );
+                this._errMessages.requiredMessage = result;
+            }
+        );
+        buildfire.language.get(
+            { stringKey: 'plugin.inputMinimumMessage' },
+            (err, result) => {
+                if (err)
+                    return console.error(
+                        'Error while retrieving string value',
+                        err
+                    );
+                this._errMessages.minimumMessage = result;
+            }
+        );
+        buildfire.language.get(
+            { stringKey: 'plugin.inputNotValidMessage' },
+            (err, result) => {
+                if (err)
+                    return console.error(
+                        'Error while retrieving string value',
+                        err
+                    );
+                this._errMessages.inputNotValidMessage = result;
             }
         );
     },

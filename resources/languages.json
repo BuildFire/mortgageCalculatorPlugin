@@ -99,6 +99,18 @@
 					"defaultValue": "This Field is Required",
 					"inputType": "text",
 					"placeholder":"This Field is Required"
+				},
+				"inputMinimumMessage":{
+					"title": "Minimum of 10,000 required",
+					"defaultValue": "Minimum of 10,000 required",
+					"inputType": "text",
+					"placeholder":"Minimum of 10,000 required"
+				},
+				"inputNotValidMessage":{
+					"title": "Please enter a valid number",
+					"defaultValue": "Please enter a valid number",
+					"inputType": "text",
+					"placeholder":"Please enter a valid number"
 				}
 			}
 		}

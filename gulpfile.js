@@ -60,9 +60,7 @@ gulp.task('lint', () => {
 
 
 const cssTasks=[
-    {name:"widgetCSS",src:"widget/**/*.css",dest:"/widget"}
     ,{name:"controlContentCSS",src:"control/content/**/*.css",dest:"/control/content"}
-
 ];
 
 cssTasks.forEach(function(task){
