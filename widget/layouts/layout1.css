@@ -46,12 +46,11 @@ h1 {
 .calculator-container form {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 1rem;
 }
 
 .calculator-container form .input-group {
     position: relative;
-    height: 4.5rem;
 }
 
 .calculator-container form .input-group .mdc-text-field {
@@ -60,7 +59,8 @@ h1 {
 
 .calculator-container form .input-group .mdc-text-field .mdc-text-field__input {
     padding-left: 28px;
-    color: var(--bf-theme-body-text);
+    background-color: rgba(150, 150, 150, 0.2);
+    color: #777777;
 }
 
 .calculator-container form .input-group .mdc-text-field.annual-interest-rate .mdc-text-field__input ,
@@ -73,13 +73,17 @@ h1 {
 .calculator-container form .input-group .mdc-text-field.loan-term .mdc-text-field__input {
     padding-left: 16px;
 }
+.calculator-container form #propertyTaxContainer {
+    padding-bottom: 1rem;
+}
+
 
 
 .calculator-container form .input-group .mdc-text-field__affix {
     position: absolute;
-    top: 25px;
+    top: 24px;
     left: 16px;
-    color: var(--bf-theme-body-text);
+    color: #777777;
 }
 
 .calculator-container form .input-group .loan-term .mdc-text-field__affix {

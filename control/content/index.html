@@ -2,8 +2,9 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <link rel="stylesheet" href="../../../../styles/control/bf-base.css"> -->
     <!-- build:bundleCSSFiles -->
-    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="./style.css"/>
     <!-- endbuild -->
     <!--
     NOTE:
@@ -19,6 +20,8 @@
 
   <!-- JS -->
   <script src="../../../../scripts/buildfire.js"></script>
+  <script src="../../../../scripts/tinymce/tinymce.min.js"></script>
+
 
   <!--
     <script src="../../../../scripts/angular/angular.min.js"></script>
@@ -27,6 +30,17 @@
    -->
 </head>
 <body>
-<span>Content - Hello world!</span>
+  <section class="content slide-in">
+    <h4 class="section__title">Introduction</h4>
+    <textarea id="introduction" name="content"></textarea>
+  </section>
+
+  <!-- build:bundleJSFiles -->
+  <script src="../../shared/authManager.js"></script>
+  <script src="../../models/ContentModel.js"></script>
+  <script src="../../repository/ContentRepository.js"></script>
+  <script src="./js/content.controller.js"></script>
+  <script src="./content.js"></script>
+  <!-- endbuild -->
 </body>
 </html>

@@ -85,9 +85,24 @@ cssTasks.forEach(function(task){
     });
 });
 
-const jsTasks=[
-    {name:"widgetJS",src:"widget/*.js",dest:"/widget"}
-   , {name:"controlContentJS",src:"control/content/*.js",dest:"/control/content"}
+const jsTasks = [
+    { name: 'widgetJS', src: [
+		'shared/authManager.js',
+		'models/ContentModel.js',
+		'repository/ContentRepository.js',
+		'widget/app.js'
+	], dest: '/widget' },
+    {
+        name: 'controlContentJS',
+        src: [
+            'shared/authManager.js',
+            'models/ContentModel.js',
+            'repository/ContentRepository.js',
+            'control/content/js/content.controller.js',
+            'control/content/content.js',
+        ],
+        dest: '/control/content',
+    },
 ];
 
 jsTasks.forEach(function(task){

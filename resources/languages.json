@@ -1,14 +1,8 @@
 {
 	"sections": {
 		"plugin":{
-			"title":"Mortgage Calculator",
+			"title":"General",
 			"labels":{
-				"introduction": {
-					"title": "Introduction",
-					"defaultValue": "wysiwyg ",
-					"inputType": "wysiwyg",
-					"placeholder":"wysiwyg"
-				},
 				"homeValuePlaceholder":{
 					"title": "Home Value Placeholder",
 					"defaultValue": "Home Value",
@@ -111,6 +105,12 @@
 					"defaultValue": "Please enter a valid number",
 					"inputType": "text",
 					"placeholder":"Please enter a valid number"
+				},
+				"inputMaximumMessage":{
+					"title": "The value should be 100 or less",
+					"defaultValue": "The value should be 100 or less",
+					"inputType": "text",
+					"placeholder":"The value should be 100 or less"
 				}
 			}
 		}

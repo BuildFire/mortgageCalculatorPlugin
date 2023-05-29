@@ -18,7 +18,7 @@
 
 <body>
 	<div class="calculator-container">
-		<div bfString="plugin.introduction" class="intro"></div>
+		<div class="intro" id="introduction"></div>
 
 		<form action="" id="mortgageCalculatorForm">
 			<!-- home value -->
@@ -83,7 +83,7 @@
 					<span 
 						class="mdc-text-field__affix mdc-text-field__affix--prefix percentage-prefix hidden">%</span>
 					<input class="mdc-text-field__input percentage-input" type="number" aria-labelledby="percentage" id="percentage"
-						step="any" min="0" inputmode="decimal">
+						step="any" min="0" max="100" inputmode="decimal">
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -101,7 +101,7 @@
 						for="annualInterestRate">Annual Interest Rate</span>
 					<span class="mdc-text-field__affix mdc-text-field__affix--prefix interest-rate-prefix hidden">%</span>
 					<input class="mdc-text-field__input interest-rate-input" type="number" aria-labelledby="annualInterestRate"
-						id="annualInterestRate" min="0" step="any" inputmode="decimal" required>
+						id="annualInterestRate" min="0" max="100" step="any" inputmode="decimal" required>
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -120,7 +120,7 @@
 					<span bfString="plugin.loanTermSuffix"
 						class="mdc-text-field__affix mdc-text-field__affix--prefix loan-term-postfix hidden">years</span>
 					<input class="mdc-text-field__input loan-term-input" type="number" aria-labelledby="loanTerm" id="loanTerm"
-						step="any" min="0.00000000001" inputmode="decimal" required>
+						step="any" min="0.00000000001" max="100" inputmode="decimal" required>
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -151,7 +151,7 @@
 						for="propertyTaxRate">Property Tax Rate</span>
 					<span class="mdc-text-field__affix mdc-text-field__affix--prefix property-tax-prefix hidden">%</span>
 					<input class="mdc-text-field__input property-tax-input" type="number" aria-labelledby="propertyTaxRate"
-						id="propertyTaxRate" min="0" step="any" inputmode="decimal">
+						id="propertyTaxRate" min="0" max="100" step="any" inputmode="decimal">
 				</div>
 				<div class="mdc-text-field-helper-line ">
 					<div bfString="plugin.inputRequiredMessage"
@@ -177,6 +177,9 @@
 		</div>
 	</div>
 	<!-- build:bundleJSFiles  -->
+	<script src="../shared/authManager.js"></script>
+	<script src="../models/ContentModel.js"></script>
+	<script src="../repository/ContentRepository.js"></script>
 	<script src="app.js"></script>
 	<!-- endbuild -->
 </body>

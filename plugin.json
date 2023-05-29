@@ -7,7 +7,7 @@
   "supportSite":"",
   "control": {
     "content": {
-      "enabled": false
+      "enabled": true
     },
     "design": {
       "enabled": false

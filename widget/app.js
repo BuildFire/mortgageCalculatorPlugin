@@ -20,19 +20,37 @@ const widgetUI = {
         resultContainer: document.getElementById('resultContainer'),
         amountInputGroup: document.getElementById('amountInputGroup'),
         percentageInputGroup: document.getElementById('percentageInputGroup'),
+        introduction: document.getElementById('introduction'),
     },
     _errMessages: {
-        requiredMessage: '',
-        minimumMessage: '',
-        inputNotValidMessage: '',
+        inputRequiredMessage: null,
+        inputMinimumMessage: null,
+        inputNotValidMessage: null,
+        inputMaximumMessage: null,
     },
 
     init() {
-        this._getErrorMessagesStr();
-        this._initMDCComponents();
-        this._radioButtonsToggle();
-        this._switchButtonsToggle();
-        this._onSubmit();
+        authManager.refreshCurrentUser().then(() => {
+            this._setIntroduction();
+            this._getErrorMessagesStr();
+            this._initMDCComponents();
+            this._radioButtonsToggle();
+            this._switchButtonsToggle();
+            this._onSubmit();
+
+            buildfire.messaging.onReceivedMessage = (message) => {
+                if (message.scope === 'introduction') {
+                    this.uiElements.introduction.innerHTML =
+                        message.introduction;
+                }
+            };
+        });
+    },
+
+    _setIntroduction() {
+        ContentRepository.get().then((res) => {
+            this.uiElements.introduction.innerHTML = res.introduction;
+        });
     },
 
     _initMDCComponents() {
@@ -145,49 +163,63 @@ const widgetUI = {
     _validationsHandler(element) {
         if (element.valid) {
             element.helperText_.root_.classList.add('hidden');
+            if (element.value.trim() === '') {
+                let prefixElement = element.input_.previousElementSibling;
+                prefixElement.classList.add('hidden');
+            }
+            return;
+        }
+
+        if (element.input_.id === 'homeValue') {
+            if (
+                element.value.trim() !== '' &&
+                element.min.trim() !== '' &&
+                Number(element.value) < 10000
+            ) {
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.inputMinimumMessage
+                );
+            } else {
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.inputRequiredMessage
+                );
+            }
+        } else if (
+            element.input_.id === 'loanTerm' &&
+            (element.value === '0' || element.value > '100')
+        ) {
+            element.helperText_.foundation_.adapter_.setContent(
+                this._errMessages.inputNotValidMessage
+            );
+        } else if (
+            (element.input_.id === 'percentage' ||
+                element.input_.id === 'annualInterestRate' ||
+                element.input_.id === 'propertyTaxRate') &&
+            element.value > '100'
+        ) {
+            element.helperText_.foundation_.adapter_.setContent(
+                this._errMessages.inputMaximumMessage
+            );
         } else {
-            if (element.input_.id === 'homeValue') {
-                if (
-                    element.value.trim() !== '' &&
-                    element.min.trim() !== '' &&
-                    Number(element.value) < 10000
-                ) {
-                    element.helperText_.foundation_.adapter_.setContent(
-                        this._errMessages.minimumMessage
-                    );
-                } else {
-                    element.helperText_.foundation_.adapter_.setContent(
-                        this._errMessages.requiredMessage
-                    );
-                }
-            } else if (
-                element.input_.id === 'loanTerm' &&
-                element.value === '0'
+            if (
+                element.value.trim() !== '' &&
+                element.min.trim() !== '' &&
+                Number(element.value) < 0
             ) {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputNotValidMessage
                 );
+            } else if (element.input_.validity.badInput) {
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.inputNotValidMessage
+                );
             } else {
-                if (
-                    element.value.trim() !== '' &&
-                    element.min.trim() !== '' &&
-                    Number(element.value) < 0
-                ) {
-                    element.helperText_.foundation_.adapter_.setContent(
-                        this._errMessages.inputNotValidMessage
-                    );
-                } else if (element.input_.validity.badInput) {
-                    element.helperText_.foundation_.adapter_.setContent(
-                        this._errMessages.inputNotValidMessage
-                    );
-                } else {
-                    element.helperText_.foundation_.adapter_.setContent(
-                        this._errMessages.requiredMessage
-                    );
-                }
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.inputRequiredMessage
+                );
             }
-            element.helperText_.root_.classList.remove('hidden');
         }
+        element.helperText_.root_.classList.remove('hidden');
         if (element.value.trim() === '') {
             let prefixElement = element.input_.previousElementSibling;
             prefixElement.classList.add('hidden');
@@ -204,6 +236,9 @@ const widgetUI = {
             ) {
                 const element = this.uiElements.mdcElement[key];
                 if (element) {
+                    element.input_.addEventListener('keyup', () => {
+                        this.uiElements.resultContainer.classList.add('hidden');
+                    });
                     element.input_.addEventListener('focusout', () => {
                         this._validationsHandler(element);
                     });
@@ -302,39 +337,21 @@ const widgetUI = {
     },
 
     _getErrorMessagesStr() {
-        buildfire.language.get(
-            { stringKey: 'plugin.inputRequiredMessage' },
-            (err, result) => {
-                if (err)
-                    return console.error(
-                        'Error while retrieving string value',
-                        err
-                    );
-                this._errMessages.requiredMessage = result;
+        for (const key in this._errMessages) {
+            if (Object.hasOwnProperty.call(this._errMessages, key)) {
+                buildfire.language.get(
+                    { stringKey: `plugin.${key}` },
+                    (err, result) => {
+                        if (err)
+                            return console.error(
+                                'Error while retrieving string value',
+                                err
+                            );
+                        this._errMessages[key] = result;
+                    }
+                );
             }
-        );
-        buildfire.language.get(
-            { stringKey: 'plugin.inputMinimumMessage' },
-            (err, result) => {
-                if (err)
-                    return console.error(
-                        'Error while retrieving string value',
-                        err
-                    );
-                this._errMessages.minimumMessage = result;
-            }
-        );
-        buildfire.language.get(
-            { stringKey: 'plugin.inputNotValidMessage' },
-            (err, result) => {
-                if (err)
-                    return console.error(
-                        'Error while retrieving string value',
-                        err
-                    );
-                this._errMessages.inputNotValidMessage = result;
-            }
-        );
+        }
     },
 };
 
