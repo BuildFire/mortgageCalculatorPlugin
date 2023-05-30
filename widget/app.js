@@ -203,7 +203,7 @@ const widgetUI = {
             (element.value === '0' || element.value > '100')
         ) {
             element.helperText_.foundation_.adapter_.setContent(
-                this._errMessages.inputNotValidMessage
+                this._errMessages.inputMaximumMessage
             );
         } else if (
             (element.input_.id === 'percentage' ||
