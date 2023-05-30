@@ -7,9 +7,7 @@
 	<!-- CSS -->
 	<link rel="stylesheet" href="../../../styles/materialDesign/material-components-web@4.0.0.min.css">
 	<link rel="stylesheet" href="../../../styles/material-icons.css">
-	<!-- build:bundleCSSFiles  -->
-	<link rel="stylesheet" href="./style.css">
-	<!-- endbuild -->
+
 	<!-- JS -->
 	<script src="../../../scripts/buildfire.min.js"></script>
 	<script src="../../../scripts/materialDesign/material-components-web@4.0.0.min.js"></script>
@@ -17,7 +15,7 @@
 </head>
 
 <body>
-	<div class="calculator-container">
+	<div class="calculator-container" id="calculatorContainer">
 		<div class="intro" id="introduction"></div>
 
 		<form action="" id="mortgageCalculatorForm">
@@ -25,7 +23,7 @@
 			<div class="input-group">
 				<div class="mdc-text-field mdc-text-field--filled home-value">
 					<span class="mdc-text-field__ripple"></span>
-					<span bfString="plugin.homeValuePlaceholder" class="mdc-floating-label home-value-floating-label ellipsis"
+					<span bfString="plugin.homeValuePlaceholder" class="mdc-floating-label home-value-label ellipsis"
 						for="homeValue">Home Value</span>
 					<span bfString="plugin.currencySymbol"
 						class=" mdc-text-field__affix mdc-text-field__affix--prefix home-value-prefix hidden">$</span>
@@ -59,7 +57,7 @@
 			<div class="input-group" id="amountInputGroup">
 				<div class="mdc-text-field mdc-text-field--filled amount">
 					<span class="mdc-text-field__ripple"></span>
-					<span bfString="plugin.downPaymentAmountPlaceholder" class="mdc-floating-label amount-floating-label  ellipsis"
+					<span bfString="plugin.downPaymentAmountPlaceholder" class="mdc-floating-label amount-label  ellipsis"
 						for="amount">Enter Amount</span>
 					<span bfString="plugin.currencySymbol"
 						class="mdc-text-field__affix mdc-text-field__affix--prefix amount-prefix hidden">$</span>
@@ -78,7 +76,7 @@
 			<div class="input-group hidden" id="percentageInputGroup">
 				<div class="mdc-text-field mdc-text-field--filled percentage">
 					<span class="mdc-text-field__ripple"></span>
-					<span bfString="plugin.downPaymentPercentagePlaceholder" class="mdc-floating-label percentage-floating-label ellipsis"
+					<span bfString="plugin.downPaymentPercentagePlaceholder" class="mdc-floating-label percentage-label ellipsis"
 						for="percentage">Enter Percentage</span>
 					<span 
 						class="mdc-text-field__affix mdc-text-field__affix--prefix percentage-prefix hidden">%</span>
@@ -97,7 +95,7 @@
 			<div class="input-group">
 				<div class="mdc-text-field mdc-text-field--filled annual-interest-rate">
 					<span class="mdc-text-field__ripple"></span>
-					<span bfString="plugin.annualInterestRatePlaceholder" class="mdc-floating-label interest-rate-floating-label ellipsis"
+					<span bfString="plugin.annualInterestRatePlaceholder" class="mdc-floating-label interest-rate-label ellipsis"
 						for="annualInterestRate">Annual Interest Rate</span>
 					<span class="mdc-text-field__affix mdc-text-field__affix--prefix interest-rate-prefix hidden">%</span>
 					<input class="mdc-text-field__input interest-rate-input" type="number" aria-labelledby="annualInterestRate"
@@ -115,7 +113,7 @@
 			<div class="input-group">
 				<div class="mdc-text-field mdc-text-field--filled loan-term">
 					<span class="mdc-text-field__ripple"></span>
-					<span bfString="plugin.loanTermPlaceholder" class="mdc-floating-label loan-term-floating-label ellipsis" for="loanTerm">Loan
+					<span bfString="plugin.loanTermPlaceholder" class="mdc-floating-label loan-term-label ellipsis" for="loanTerm">Loan
 						Term</span>
 					<span bfString="plugin.loanTermSuffix"
 						class="mdc-text-field__affix mdc-text-field__affix--prefix loan-term-postfix hidden">years</span>
@@ -147,7 +145,7 @@
 			<div class="input-group hidden" id="propertyTaxContainer">
 				<div class="mdc-text-field mdc-text-field--filled property-tax-rate ">
 					<span class="mdc-text-field__ripple"></span>
-					<span bfString="plugin.propertyTaxRatePlaceholder" class="mdc-floating-label property-tax-floating-label ellipsis"
+					<span bfString="plugin.propertyTaxRatePlaceholder" class="mdc-floating-label property-tax-label ellipsis"
 						for="propertyTaxRate">Property Tax Rate</span>
 					<span class="mdc-text-field__affix mdc-text-field__affix--prefix property-tax-prefix hidden">%</span>
 					<input class="mdc-text-field__input property-tax-input" type="number" aria-labelledby="propertyTaxRate"
@@ -177,7 +175,7 @@
 		</div>
 	</div>
 	<!-- build:bundleJSFiles  -->
-	<script src="../shared/authManager.js"></script>
+	<!-- <script src="../shared/authManager.js"></script> -->
 	<script src="../models/ContentModel.js"></script>
 	<script src="../repository/ContentRepository.js"></script>
 	<script src="app.js"></script>

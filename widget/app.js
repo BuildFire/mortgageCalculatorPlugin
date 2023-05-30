@@ -30,21 +30,18 @@ const widgetUI = {
     },
 
     init() {
-        authManager.refreshCurrentUser().then(() => {
-            this._setIntroduction();
-            this._getErrorMessagesStr();
-            this._initMDCComponents();
-            this._radioButtonsToggle();
-            this._switchButtonsToggle();
-            this._onSubmit();
+        this._setIntroduction();
+        this._getErrorMessagesStr();
+        this._initMDCComponents();
+        this._radioButtonsToggle();
+        this._switchButtonsToggle();
+        this._onSubmit();
 
-            buildfire.messaging.onReceivedMessage = (message) => {
-                if (message.scope === 'introduction') {
-                    this.uiElements.introduction.innerHTML =
-                        message.introduction;
-                }
-            };
-        });
+        buildfire.messaging.onReceivedMessage = (message) => {
+            if (message.scope === 'introduction') {
+                this.uiElements.introduction.innerHTML = message.introduction;
+            }
+        };
     },
 
     _setIntroduction() {
@@ -100,15 +97,21 @@ const widgetUI = {
                         this.uiElements.mdcElement.homeValueInput.value.trim() !==
                             ''
                     ) {
+                        let percentageValue = parseFloat(
+                            (
+                                (Number(
+                                    this.uiElements.mdcElement.amountInput.value
+                                ) /
+                                    Number(
+                                        this.uiElements.mdcElement
+                                            .homeValueInput.value
+                                    )) *
+                                100
+                            ).toFixed(1)
+                        );
                         this.uiElements.mdcElement.percentageInput.value =
-                            (Number(
-                                this.uiElements.mdcElement.amountInput.value
-                            ) /
-                                Number(
-                                    this.uiElements.mdcElement.homeValueInput
-                                        .value
-                                )) *
-                            100;
+                            percentageValue;
+
                         this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.remove(
                             'hidden'
                         );
@@ -136,14 +139,25 @@ const widgetUI = {
                         this.uiElements.mdcElement.homeValueInput.value.trim() !==
                             ''
                     ) {
-                        this.uiElements.mdcElement.amountInput.value =
-                            (Number(
-                                this.uiElements.mdcElement.percentageInput.value
-                            ) /
-                                100) *
-                            Number(
-                                this.uiElements.mdcElement.homeValueInput.value
-                            );
+                        let amountValue = parseFloat(
+                            (
+                                (Number(
+                                    this.uiElements.mdcElement.percentageInput
+                                        .value
+                                ) /
+                                    100) *
+                                Number(
+                                    this.uiElements.mdcElement.homeValueInput
+                                        .value
+                                )
+                            ).toFixed(1)
+                        );
+
+                        if (amountValue) {
+                            this.uiElements.mdcElement.amountInput.value =
+                                amountValue;
+                        }
+
                         this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.remove(
                             'hidden'
                         );

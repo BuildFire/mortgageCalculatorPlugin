@@ -87,7 +87,6 @@ cssTasks.forEach(function(task){
 
 const jsTasks = [
     { name: 'widgetJS', src: [
-		'shared/authManager.js',
 		'models/ContentModel.js',
 		'repository/ContentRepository.js',
 		'widget/app.js'

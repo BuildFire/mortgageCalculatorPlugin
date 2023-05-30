@@ -38,7 +38,6 @@ h1 {
     font-weight: bold;
 }
 
-/* widget style */
 .hidden {
     display: none !important;
 }
@@ -63,8 +62,8 @@ h1 {
     color: #777777;
 }
 
-.calculator-container form .input-group .mdc-text-field.annual-interest-rate .mdc-text-field__input ,
-.calculator-container form .input-group .mdc-text-field.percentage .mdc-text-field__input ,
+.calculator-container form .input-group .mdc-text-field.annual-interest-rate .mdc-text-field__input,
+.calculator-container form .input-group .mdc-text-field.percentage .mdc-text-field__input,
 .calculator-container form .input-group .mdc-text-field.property-tax-rate .mdc-text-field__input {
     padding-left: 34px;
 }
@@ -73,6 +72,7 @@ h1 {
 .calculator-container form .input-group .mdc-text-field.loan-term .mdc-text-field__input {
     padding-left: 16px;
 }
+
 .calculator-container form #propertyTaxContainer {
     padding-bottom: 1rem;
 }
@@ -140,11 +140,11 @@ h1 {
 
 
 .calculator-container form input[type="radio"]:checked+label.radio-button {
-    background-color: var(--bf-theme-primary) !important;
+    background-color: var(--bf-theme-primary);
 }
 
 .calculator-container form input[type="radio"]:not(:checked)+label.radio-button {
-    background-color: rgba(150, 150, 150, 0.1) !important;
+    background-color: rgba(150, 150, 150, 0.1);
     color: var(--bf-theme-body-text);
 }
 
@@ -275,75 +275,74 @@ h1 {
 /* -------------------- css customization ------------------------*/
 
 /* Introduction */
-.calculator-container .intro {}
+#calculatorContainer .intro {}
 
 /* home value input */
-.calculator-container form .input-group .home-value-floating-label {}
+#calculatorContainer .home-value-label {}
 
-.calculator-container form .input-group .home-value-prefix {}
+#calculatorContainer .home-value-prefix {}
 
-.calculator-container form .input-group .home-value-input {}
+#calculatorContainer .home-value-input {}
 
 /* amount input */
-.calculator-container form .input-group .amount-floating-label {}
+#calculatorContainer .amount-label {}
 
-.calculator-container form .input-group .amount-prefix {}
+#calculatorContainer .amount-prefix {}
 
-.calculator-container form .input-group .amount-input {}
+#calculatorContainer .amount-input {}
 
 /* percentage input */
-.calculator-container form .input-group .percentage-floating-label {}
+#calculatorContainer .percentage-label {}
 
-.calculator-container form .input-group .percentage-prefix {}
+#calculatorContainer .percentage-prefix {}
 
-.calculator-container form .input-group .percentage-input {}
+#calculatorContainer .percentage-input {}
 
 /* Annual Interest Rate input */
-.calculator-container form .input-group .interest-rate-floating-label {}
+#calculatorContainer .interest-rate-label {}
 
-.calculator-container form .input-group .interest-rate-prefix {}
+#calculatorContainer .interest-rate-prefix {}
 
-.calculator-container form .input-group .interest-rate-input {}
+#calculatorContainer .interest-rate-input {}
 
 /* Loan Term input */
-.calculator-container form .input-group .loan-term-floating-label {}
+#calculatorContainer .loan-term-label {}
 
-.calculator-container form .input-group .loan-term-postfix {}
+#calculatorContainer .loan-term-postfix {}
 
-.calculator-container form .input-group .loan-term-input {}
+#calculatorContainer .loan-term-input {}
 
 /* property Tax input */
-.calculator-container form .input-group .property-tax-floating-label {}
+#calculatorContainer .property-tax-label {}
 
-.calculator-container form .input-group .property-tax-prefix {}
+#calculatorContainer .property-tax-prefix {}
 
-.calculator-container form .input-group .property-tax-input {}
+#calculatorContainer .property-tax-input {}
 
 
 /* Validation message */
-.calculator-container form .input-group .validation-message {}
+#calculatorContainer .validation-message {}
 
 
 /* Down payment container */
-.calculator-container form .buttons-container .down-payment-text {}
+#calculatorContainer .buttons-container .down-payment-text {}
 
-.calculator-container form .buttons-container .buttons-group{}
+#calculatorContainer .buttons-container .buttons-group {}
 
-.calculator-container form .buttons-container .buttons-group .down-payment-btn{}
+#calculatorContainer .buttons-container .buttons-group .down-payment-btn {}
 
 
 /* Property Tax switch container*/
-.calculator-container form .property-tax-switch-container{}
+#calculatorContainer .property-tax-switch-container {}
 
-.calculator-container form .property-tax-switch-container .col .title{}
+#calculatorContainer .property-tax-switch-container .col .title {}
 
-.calculator-container form .property-tax-switch-container .col .title{}
+#calculatorContainer .property-tax-switch-container .col .title {}
 
-.calculator-container form .button-switch>input[type="checkbox"]:checked+label::after {}
+#calculatorContainer .button-switch>input[type="checkbox"]:checked+label::after {}
 
-.calculator-container form .button-switch>input[type="checkbox"]:disabled+label::after {}
+#calculatorContainer .button-switch>input[type="checkbox"]:disabled+label::after {}
 
 
 /* Calculate Button */
-.calculator-container form .calculate-btn{}
-
+#calculatorContainer .calculate-btn {}
