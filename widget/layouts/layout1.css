@@ -26,6 +26,11 @@ html[safe-area="true"] .calculator-container {
     height: calc(95vh - env(safe-area-inset-bottom)) !important;
 }
 
+.invisible-titlebar-safe-area {
+    padding-top: calc(30px + constant(safe-area-inset-top)) !important;
+    padding-top: calc(30px + env(safe-area-inset-top)) !important;
+}
+
 .calculator-container form input[type="number"]::-webkit-inner-spin-button,
 .calculator-container form input[type="number"]::-webkit-outer-spin-button {
     -webkit-appearance: none;
@@ -270,8 +275,16 @@ h1 {
     color: var(--bf-theme-header-text);
 }
 
+.not-valid-input .mdc-text-field:not(.mdc-text-field--disabled) .mdc-floating-label{
+    color: var(--mdc-theme-error, #b00020);
+}
+.not-valid-input .mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--outlined):not(.mdc-text-field--textarea) .mdc-text-field__input{
+    border-bottom-color: var(--mdc-theme-error, #b00020);
+}
 
-
+.not-valid-input .validation-message{
+    color: var(--mdc-theme-error, #b00020) !important;
+}
 /* -------------------- css customization ------------------------*/
 
 /* Introduction */

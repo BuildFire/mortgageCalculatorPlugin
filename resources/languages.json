@@ -111,6 +111,12 @@
 					"defaultValue": "The value should be 100 or less",
 					"inputType": "text",
 					"placeholder":"The value should be 100 or less"
+				},
+				"amountMoreThanHomeValueMessage":{
+					"title": "Down payment should be less than home value",
+					"defaultValue": "Down payment should be less than home value",
+					"inputType": "text",
+					"placeholder":"Down payment should be less than home value"
 				}
 			}
 		}

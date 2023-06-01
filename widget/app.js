@@ -27,9 +27,16 @@ const widgetUI = {
         inputMinimumMessage: null,
         inputNotValidMessage: null,
         inputMaximumMessage: null,
+        amountMoreThanHomeValueMessage: null,
     },
 
     init() {
+        buildfire.appearance.titlebar.isVisible(null, (err, isVisible) => {
+            if (err) return console.error(err);
+            if (!isVisible)
+                document.body.classList.add('invisible-titlebar-safe-area');
+        });
+
         this._setIntroduction();
         this._getErrorMessagesStr();
         this._initMDCComponents();
@@ -74,6 +81,19 @@ const widgetUI = {
             new mdc.textField.MDCTextField(
                 document.querySelector('.property-tax-rate')
             );
+        this.uiElements.mdcElement.homeValueInput.input_.addEventListener(
+            'keyup',
+            () => {
+                this.uiElements.mdcElement.amountInput.input_.setAttribute(
+                    'max',
+                    this.uiElements.mdcElement.homeValueInput.value
+                );
+                this._validationsHandler(
+                    this.uiElements.mdcElement.amountInput,
+                    true
+                );
+            }
+        );
         this._ErrMsgToggle();
     },
 
@@ -174,12 +194,18 @@ const widgetUI = {
         });
     },
 
-    _validationsHandler(element) {
+    _validationsHandler(element, tracking) {
         if (element.valid) {
             element.helperText_.root_.classList.add('hidden');
             if (element.value.trim() === '') {
                 let prefixElement = element.input_.previousElementSibling;
                 prefixElement.classList.add('hidden');
+            }
+            if (element.input_.id === 'amount' && element.value.trim() !== '') {
+                document
+                    .getElementById('amountInputGroup')
+                    .classList.remove('not-valid-input');
+                console.log('remove');
             }
             return;
         }
@@ -214,6 +240,29 @@ const widgetUI = {
             element.helperText_.foundation_.adapter_.setContent(
                 this._errMessages.inputMaximumMessage
             );
+        } else if (element.input_.id === 'amount') {
+            if (
+                Number(element.value) >
+                    Number(this.uiElements.mdcElement.homeValueInput.value) &&
+                element.value.trim() !== ''
+            ) {
+                element.helperText_.root_.classList.remove('hidden');
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.amountMoreThanHomeValueMessage
+                );
+                document
+                    .getElementById('amountInputGroup')
+                    .classList.add('not-valid-input');
+            } else {
+                if (!tracking) {
+                    document
+                        .getElementById('amountInputGroup')
+                        .classList.add('not-valid-input');
+                    element.helperText_.foundation_.adapter_.setContent(
+                        this._errMessages.inputRequiredMessage
+                    );
+                }
+            }
         } else {
             if (
                 element.value.trim() !== '' &&
@@ -227,13 +276,11 @@ const widgetUI = {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputNotValidMessage
                 );
-            } else {
-                element.helperText_.foundation_.adapter_.setContent(
-                    this._errMessages.inputRequiredMessage
-                );
             }
         }
-        element.helperText_.root_.classList.remove('hidden');
+        if (!tracking) {
+            element.helperText_.root_.classList.remove('hidden');
+        }
         if (element.value.trim() === '') {
             let prefixElement = element.input_.previousElementSibling;
             prefixElement.classList.add('hidden');
@@ -254,7 +301,7 @@ const widgetUI = {
                         this.uiElements.resultContainer.classList.add('hidden');
                     });
                     element.input_.addEventListener('focusout', () => {
-                        this._validationsHandler(element);
+                        this._validationsHandler(element, false);
                     });
 
                     element.input_.onfocus = (e) => {
