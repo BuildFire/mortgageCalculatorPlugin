@@ -32,9 +32,13 @@ const widgetUI = {
 
     init() {
         buildfire.appearance.titlebar.isVisible(null, (err, isVisible) => {
-            if (err) return console.error(err);
-            if (!isVisible)
+            if (err) {
+                console.error(err);
+                return;
+            }
+            if (!isVisible) {
                 document.body.classList.add('invisible-titlebar-safe-area');
+            }
         });
 
         this._setIntroduction();
@@ -44,11 +48,50 @@ const widgetUI = {
         this._switchButtonsToggle();
         this._onSubmit();
 
-        buildfire.messaging.onReceivedMessage = (message) => {
-            if (message.scope === 'introduction') {
-                this.uiElements.introduction.innerHTML = message.introduction;
+        buildfire.messaging.onReceivedMessage =
+            this.handleReceivedMessage.bind(this);
+
+        document.addEventListener(
+            'invalid',
+            this.handleInvalidInput.bind(this),
+            true
+        );
+    },
+
+    handleReceivedMessage(message) {
+        if (message.scope === 'introduction') {
+            this.uiElements.introduction.innerHTML = message.introduction;
+        }
+    },
+
+    handleInvalidInput(e) {
+        e.preventDefault();
+        let firstInvalidElement = null;
+
+        for (const key in this.uiElements.mdcElement) {
+            if (this.uiElements.mdcElement.hasOwnProperty(key)) {
+                const element = this.uiElements.mdcElement[key];
+                if (element) {
+                    if (!element.valid && !firstInvalidElement) {
+                        firstInvalidElement = element;
+                    }
+                    element.input_.focus();
+                    this._validationsHandler(element, false);
+                    if(element.input_.id === 'propertyTaxRate' && this.includeTaxes){
+                        let prefixElement = element.input_.previousElementSibling;
+                        prefixElement.classList.remove('hidden');
+                        document
+                        .getElementById('propertyTaxContainer')
+                        .classList.add('not-valid-input');
+                            element.helperText_.root_.classList.remove('hidden');
+                    }
+                }
             }
-        };
+        }
+
+        if (firstInvalidElement) {
+            firstInvalidElement.input_.focus();
+        }
     },
 
     _setIntroduction() {
@@ -102,6 +145,9 @@ const widgetUI = {
             radio.addEventListener('change', (e) => {
                 this.downPaymentChoose = e.target.value;
                 if (this.downPaymentChoose === 'percentage') {
+                    let prefixElement =
+                        this.uiElements.mdcElement.percentageInput.input_
+                            .previousElementSibling;
                     this.uiElements.amountInputGroup.classList.add('hidden');
                     this.uiElements.mdcElement.amountInput.input_.required = false;
                     this.uiElements.percentageInputGroup.classList.remove(
@@ -135,15 +181,24 @@ const widgetUI = {
                         this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.remove(
                             'hidden'
                         );
-                        let prefixElement =
-                            this.uiElements.mdcElement.percentageInput.input_
-                                .previousElementSibling;
                         prefixElement.classList.remove('hidden');
                         this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.add(
                             'hidden'
                         );
                     }
+                    this._validationsHandler(
+                        this.uiElements.mdcElement.percentageInput,
+                        true
+                    );
+                    this._inputStyle(
+                        prefixElement,
+                        this.uiElements.mdcElement.percentageInput.input_
+                    );
                 } else {
+                    let prefixElement =
+                        this.uiElements.mdcElement.amountInput.input_
+                            .previousElementSibling;
+
                     this.uiElements.percentageInputGroup.classList.add(
                         'hidden'
                     );
@@ -181,14 +236,19 @@ const widgetUI = {
                         this.uiElements.mdcElement.percentageInput.helperText_.root_.classList.remove(
                             'hidden'
                         );
-                        let prefixElement =
-                            this.uiElements.mdcElement.amountInput.input_
-                                .previousElementSibling;
                         prefixElement.classList.remove('hidden');
                         this.uiElements.mdcElement.amountInput.helperText_.root_.classList.add(
                             'hidden'
                         );
+                        this._validationsHandler(
+                            this.uiElements.mdcElement.amountInput,
+                            true
+                        );
                     }
+                    this._inputStyle(
+                        prefixElement,
+                        this.uiElements.mdcElement.amountInput.input_
+                    );
                 }
             });
         });
@@ -205,7 +265,22 @@ const widgetUI = {
                 document
                     .getElementById('amountInputGroup')
                     .classList.remove('not-valid-input');
-                console.log('remove');
+            }
+            if (
+                element.input_.id === 'percentage' &&
+                element.value.trim() !== ''
+            ) {
+                document
+                    .getElementById('percentageInputGroup')
+                    .classList.remove('not-valid-input');
+            }
+            if (
+                element.input_.id === 'propertyTaxRate' &&
+                element.value.trim() !== ''
+            ) {
+                document
+                    .getElementById('propertyTaxContainer')
+                    .classList.remove('not-valid-input');
             }
             return;
         }
@@ -226,7 +301,7 @@ const widgetUI = {
             }
         } else if (
             element.input_.id === 'loanTerm' &&
-            (element.value === '0' || element.value > '100')
+            (element.value === '0' || Number(element.value) > 100)
         ) {
             element.helperText_.foundation_.adapter_.setContent(
                 this._errMessages.inputMaximumMessage
@@ -235,8 +310,14 @@ const widgetUI = {
             (element.input_.id === 'percentage' ||
                 element.input_.id === 'annualInterestRate' ||
                 element.input_.id === 'propertyTaxRate') &&
-            element.value > '100'
+            Number(element.value) > 100
         ) {
+            if (element.input_.id === 'percentage' && tracking) {
+                document
+                    .getElementById('percentageInputGroup')
+                    .classList.add('not-valid-input');
+                element.helperText_.root_.classList.remove('hidden');
+            }
             element.helperText_.foundation_.adapter_.setContent(
                 this._errMessages.inputMaximumMessage
             );
@@ -257,24 +338,34 @@ const widgetUI = {
                 if (!tracking) {
                     document
                         .getElementById('amountInputGroup')
-                        .classList.add('not-valid-input');
+                        .classList.remove('not-valid-input');
                     element.helperText_.foundation_.adapter_.setContent(
                         this._errMessages.inputRequiredMessage
                     );
+                } else if (
+                    !element.helperText_.root_.classList.contains('hidden')
+                ) {
+                    document
+                        .getElementById('amountInputGroup')
+                        .classList.add('not-valid-input');
                 }
             }
         } else {
             if (
                 element.value.trim() !== '' &&
                 element.min.trim() !== '' &&
-                Number(element.value) < 0
-            ) {
+                Number(element.value) <= 0
+                ) {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputNotValidMessage
                 );
             } else if (element.input_.validity.badInput) {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputNotValidMessage
+                );
+            }else {
+                element.helperText_.foundation_.adapter_.setContent(
+                    this._errMessages.inputRequiredMessage
                 );
             }
         }
@@ -288,42 +379,67 @@ const widgetUI = {
     },
 
     _ErrMsgToggle() {
-        for (const key in this.uiElements.mdcElement) {
-            if (
-                this.uiElements.mdcElement.hasOwnProperty.call(
-                    this.uiElements.mdcElement,
-                    key
-                )
-            ) {
-                const element = this.uiElements.mdcElement[key];
+        const { mdcElement, resultContainer } = this.uiElements;
+
+        for (const key in mdcElement) {
+            if (mdcElement.hasOwnProperty(key)) {
+                const element = mdcElement[key];
+
                 if (element) {
                     element.input_.addEventListener('keyup', () => {
-                        this.uiElements.resultContainer.classList.add('hidden');
+                        resultContainer.classList.add('hidden');
                     });
+
                     element.input_.addEventListener('focusout', () => {
                         this._validationsHandler(element, false);
                     });
 
                     element.input_.onfocus = (e) => {
-                        let prefixElement =
+                        const prefixElement =
                             element.input_.previousElementSibling;
                         prefixElement.classList.remove('hidden');
+                        this._inputStyle(prefixElement, element.input_);
                     };
                 }
             }
         }
     },
 
+    _inputStyle(prefixElement, element) {
+        if (element.id === 'loanTerm') return;
+        var rect = prefixElement.getBoundingClientRect();
+        var width = rect.width;
+        element.style.paddingLeft = width + 20 + 'px';
+    },
+
     _switchButtonsToggle() {
-        this.uiElements.propertyTaxSwitch.addEventListener('change', (e) => {
+        const { propertyTaxSwitch, mdcElement, propertyTaxContainer } =
+            this.uiElements;
+
+        propertyTaxSwitch.addEventListener('change', (e) => {
+            this.uiElements.resultContainer.classList.add('hidden');
+            const { propertyTaxRateInput } = mdcElement;
+            const { value, helperText_, root_ } = propertyTaxRateInput;
+
             if (e.target.checked) {
                 this.includeTaxes = true;
-                this.uiElements.mdcElement.propertyTaxRateInput.input_.required = true;
-                this.uiElements.propertyTaxContainer.classList.remove('hidden');
+                propertyTaxRateInput.input_.required = true;
+                propertyTaxContainer.classList.remove('hidden');
             } else {
                 this.includeTaxes = false;
-                this.uiElements.mdcElement.propertyTaxRateInput.input_.required = false;
-                this.uiElements.propertyTaxContainer.classList.add('hidden');
+                propertyTaxRateInput.input_.required = false;
+                propertyTaxContainer.classList.add('hidden');
+
+                if (value.trim() === '') {
+                    helperText_.root_.classList.add('hidden');
+                    document
+                        .getElementById('propertyTaxContainer')
+                        .classList.remove('not-valid-input');
+                } else if (Number(value.trim()) >= 100) {
+                    document
+                        .getElementById('propertyTaxContainer')
+                        .classList.add('not-valid-input');
+                }
             }
         });
     },
@@ -393,10 +509,18 @@ const widgetUI = {
                 this.uiElements.monthlyPayment.innerText =
                     totalMonthlyPaymentDisplay;
                 this.uiElements.resultContainer.classList.remove('hidden');
+                this._scrollDown();
             }
         );
     },
-
+    
+    _scrollDown() {
+        document.body.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: 'smooth'
+        });
+      },
+      
     _getErrorMessagesStr() {
         for (const key in this._errMessages) {
             if (Object.hasOwnProperty.call(this._errMessages, key)) {

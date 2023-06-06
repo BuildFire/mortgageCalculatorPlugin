@@ -86,7 +86,7 @@
 					"defaultValue": "$",
 					"inputType": "text",
 					"placeholder":"$",
-					"maxLength":1
+					"maxLength":3
 				},
 				"inputRequiredMessage":{
 					"title": "This Field is Required",
