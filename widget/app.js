@@ -1,6 +1,7 @@
 const widgetUI = {
     downPaymentChoose: null,
     includeTaxes: false,
+    propertyTaxRateLastValue: '',
     uiElements: {
         mdcElement: {
             homeValueInput: null,
@@ -77,13 +78,17 @@ const widgetUI = {
                     }
                     element.input_.focus();
                     this._validationsHandler(element, false);
-                    if(element.input_.id === 'propertyTaxRate' && this.includeTaxes){
-                        let prefixElement = element.input_.previousElementSibling;
+                    if (
+                        element.input_.id === 'propertyTaxRate' &&
+                        this.includeTaxes
+                    ) {
+                        let prefixElement =
+                            element.input_.previousElementSibling;
                         prefixElement.classList.remove('hidden');
                         document
-                        .getElementById('propertyTaxContainer')
-                        .classList.add('not-valid-input');
-                            element.helperText_.root_.classList.remove('hidden');
+                            .getElementById('propertyTaxContainer')
+                            .classList.add('not-valid-input');
+                        element.helperText_.root_.classList.remove('hidden');
                     }
                 }
             }
@@ -124,6 +129,19 @@ const widgetUI = {
             new mdc.textField.MDCTextField(
                 document.querySelector('.property-tax-rate')
             );
+
+        this.uiElements.mdcElement.amountInput.input_.addEventListener(
+            'keyup',
+            () => {
+                this.uiElements.mdcElement.percentageInput.input_.value = '';
+            }
+        );
+        this.uiElements.mdcElement.propertyTaxRateInput.input_.addEventListener(
+            'keyup',
+            (e) => {
+                this.propertyTaxRateLastValue = e.target.value;
+            }
+        );
         this.uiElements.mdcElement.homeValueInput.input_.addEventListener(
             'keyup',
             () => {
@@ -355,7 +373,7 @@ const widgetUI = {
                 element.value.trim() !== '' &&
                 element.min.trim() !== '' &&
                 Number(element.value) <= 0
-                ) {
+            ) {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputNotValidMessage
                 );
@@ -363,7 +381,7 @@ const widgetUI = {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputNotValidMessage
                 );
-            }else {
+            } else {
                 element.helperText_.foundation_.adapter_.setContent(
                     this._errMessages.inputRequiredMessage
                 );
@@ -416,26 +434,38 @@ const widgetUI = {
         const { propertyTaxSwitch, mdcElement, propertyTaxContainer } =
             this.uiElements;
 
+        const { propertyTaxRateInput } = mdcElement;
+        const { input_, helperText_, root_ } = propertyTaxRateInput;
+
         propertyTaxSwitch.addEventListener('change', (e) => {
             this.uiElements.resultContainer.classList.add('hidden');
-            const { propertyTaxRateInput } = mdcElement;
-            const { value, helperText_, root_ } = propertyTaxRateInput;
 
             if (e.target.checked) {
                 this.includeTaxes = true;
-                propertyTaxRateInput.input_.required = true;
+                input_.setAttribute('required', '');
                 propertyTaxContainer.classList.remove('hidden');
+                input_.value = this.propertyTaxRateLastValue;
+                if (input_.value !== '' && Number(input_.value.trim()) >= 100) {
+                    input_.focus();
+                    input_.blur();
+                    document
+                        .getElementById('propertyTaxContainer')
+                        .classList.add('not-valid-input');
+                } else if (input_.value !== '') {
+                    let prefixElement = input_.previousElementSibling;
+                    prefixElement.classList.remove('hidden');
+                }
             } else {
                 this.includeTaxes = false;
-                propertyTaxRateInput.input_.required = false;
+                input_.removeAttribute('required');
                 propertyTaxContainer.classList.add('hidden');
-
-                if (value.trim() === '') {
+                input_.value = '';
+                if (input_.value.trim() === '') {
                     helperText_.root_.classList.add('hidden');
                     document
                         .getElementById('propertyTaxContainer')
                         .classList.remove('not-valid-input');
-                } else if (Number(value.trim()) >= 100) {
+                } else if (Number(input_.value.trim()) >= 100) {
                     document
                         .getElementById('propertyTaxContainer')
                         .classList.add('not-valid-input');
@@ -483,14 +513,21 @@ const widgetUI = {
                 const monthlyInterestRate = interestRate / 12;
                 const numberOfPayments = loanTerm * 12;
 
-                const monthlyPrincipalAndInterest =
-                    (loanAmount *
-                        (monthlyInterestRate *
-                            Math.pow(
-                                1 + monthlyInterestRate,
-                                numberOfPayments
-                            ))) /
-                    (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+                let monthlyPrincipalAndInterest = 0;
+
+                if (monthlyInterestRate === 0) {
+                    monthlyPrincipalAndInterest = loanAmount / numberOfPayments;
+                } else {
+                    monthlyPrincipalAndInterest =
+                        (loanAmount *
+                            (monthlyInterestRate *
+                                Math.pow(
+                                    1 + monthlyInterestRate,
+                                    numberOfPayments
+                                ))) /
+                        (Math.pow(1 + monthlyInterestRate, numberOfPayments) -
+                            1);
+                }
 
                 const monthlyPropertyTax = includeTaxes
                     ? (homeValue * propertyTaxRate) / 12
@@ -513,14 +550,14 @@ const widgetUI = {
             }
         );
     },
-    
+
     _scrollDown() {
         document.body.scrollTo({
-          top: document.body.scrollHeight,
-          behavior: 'smooth'
+            top: document.body.scrollHeight,
+            behavior: 'smooth',
         });
-      },
-      
+    },
+
     _getErrorMessagesStr() {
         for (const key in this._errMessages) {
             if (Object.hasOwnProperty.call(this._errMessages, key)) {
