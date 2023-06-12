@@ -1,13 +1,13 @@
 {
   "author": "BuildFire",
-  "pluginName": "Mortgage Calculator",
-  "pluginDescription": "A Simple Mortgage Calculator",
-  "pluginKeywords": "Mortgage Calculator, real estate",
+  "pluginName": "Mortgage Estimator",
+  "pluginDescription": "The Mortgage Estimator feature provides a quick and convenient way for your users to estimate their monthly mortgage payments. They can Input their loan amount, interest rate, loan term, and property tax (if needed) and the feature will instantly calculate their payments, helping them to plan their budget and make informed decisions about their home purchase.",
+  "pluginKeywords": "mortgage estimator, real estate, calculator , payments, estimator",
   "supportEmail": "support@buildfire.com",
   "supportSite":"",
   "control": {
     "content": {
-      "enabled": false
+      "enabled": true
     },
     "design": {
       "enabled": false
@@ -19,7 +19,7 @@
 		  "enabled": true,
 		  "layouts": [
 			  {
-				  "name": "Test Layout 1",
+				  "name": "Layout 1",
 				  "imageUrl": "resources/layouts_img/layout1.png",
 				  "cssPath": "widget/layouts/layout1.css"
 			  }
