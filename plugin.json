@@ -4,7 +4,7 @@
   "pluginDescription": "The Mortgage Estimator feature provides a quick and convenient way for your users to estimate their monthly mortgage payments. They can Input their loan amount, interest rate, loan term, and property tax (if needed) and the feature will instantly calculate their payments, helping them to plan their budget and make informed decisions about their home purchase.",
   "pluginKeywords": "mortgage estimator, real estate, calculator , payments, estimator",
   "supportEmail": "support@buildfire.com",
-  "supportSite":"",
+  "supportSite":"https://learn.appdocumentation.com/en/articles/8014016-mortgage-estimator-plugin",
   "control": {
     "content": {
       "enabled": true
