@@ -13,8 +13,7 @@ body {
 }
 
 html[safe-area="true"] body {
-    height: calc(100vh - constant(safe-area-inset-bottom)) !important;
-    height: calc(100vh - env(safe-area-inset-bottom)) !important;
+    height: calc(100vh - var(--bf-safe-area-inset-bottom)) !important;
 }
 
 .ellipsis {
@@ -35,8 +34,7 @@ html[safe-area="true"] body {
 }
 
 .invisible-titlebar-safe-area {
-    padding-top: calc(30px + constant(safe-area-inset-top)) !important;
-    padding-top: calc(30px + env(safe-area-inset-top)) !important;
+    padding-top: calc(30px + var(--bf-safe-area-inset-top)) !important;
 }
 
 .calculator-container form input[type="number"]::-webkit-inner-spin-button,
